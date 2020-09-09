@@ -10,6 +10,8 @@ app.get('/', (req, res) => {
   });
 })
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`⚡️[server]: PDF Generator v${version} is running at http://localhost:${port}`)
 });
+
+export { app, server }
