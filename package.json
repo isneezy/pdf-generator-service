@@ -1,0 +1,10 @@
+{
+  "name": "pdf-generator",
+  "version": "0.0.1",
+  "description": "A simple express service that generates a pdf based on the submitted HTML",
+  "main": "index.js",
+  "repository": "https://github.com/isneezy/pdf-generator-service",
+  "author": "Ivan Vilanculo <vilanculoivan@gmail.com>",
+  "license": "MIT",
+  "private": false
+}
