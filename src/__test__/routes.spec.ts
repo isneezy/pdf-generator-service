@@ -27,7 +27,8 @@ describe('GET /', () => {
 describe('POST /generate', () => {
   it('should generate and stream pdf file based on html input', async (done) => {
     // dirty hack to fix missing dependency on ioc
-    const browser = await Puppeteer.launch()
+    const args: string[] = (process.env.PUPPETEER_ARGS || '').split(' ')
+    const browser = await Puppeteer.launch({ args })
 
     request(app)
       .post('/generate')
