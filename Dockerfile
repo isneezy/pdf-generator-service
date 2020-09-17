@@ -18,7 +18,7 @@ RUN apt-get update \
 COPY package.json .
 COPY yarn.lock .
 
-RUN yarn install
+RUN yarn install \
     && groupadd -r ${APP_USERNAME} && useradd -r -g ${APP_USERNAME} -G audio,video ${APP_USERNAME} \
     && mkdir -p /home/${APP_USERNAME}/Downloads \
     && chown -R ${APP_USERNAME}:${APP_USERNAME} /home/${APP_USERNAME} \
