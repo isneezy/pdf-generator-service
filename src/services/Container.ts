@@ -35,13 +35,15 @@ export class Container {
 }
 
 function wire(container: Container): void {
-  Puppeteer.launch({ handleSIGINT: false, handleSIGTERM: false }).then(
-    (browser) => {
-      const pdf = new Pdf(browser)
-      container.bind('pdf', pdf)
-      container.bind('browser', browser)
-    }
-  )
+  Puppeteer.launch({
+    handleSIGINT: false,
+    handleSIGTERM: false,
+    args: [process.env.PUPPETEER_ARGS || ''],
+  }).then((browser) => {
+    const pdf = new Pdf(browser)
+    container.bind('pdf', pdf)
+    container.bind('browser', browser)
+  })
   const logger = Logger.withTag(pkg.name).create({
     level:
       process.env.NODE_ENV === 'production' ? LogLevel.Warn : LogLevel.Debug,
