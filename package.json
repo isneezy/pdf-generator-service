@@ -1,5 +1,5 @@
 {
-  "name": "pdf-generator",
+  "name": "pdf-generator-service",
   "version": "0.0.1",
   "description": "A simple express service that generates a pdf based on the submitted HTML",
   "main": "index.js",
