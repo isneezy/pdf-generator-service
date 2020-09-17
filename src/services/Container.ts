@@ -1,7 +1,8 @@
-import {Application} from "express";
-import Puppeteer from "puppeteer";
-import Logger, {LogLevel} from "consola";
-import {Pdf} from "./pdf";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Application } from 'express'
+import Puppeteer from 'puppeteer'
+import Logger, { LogLevel } from 'consola'
+import { Pdf } from './pdf'
 import pkg from '../../package.json'
 
 export class Container {
@@ -12,7 +13,7 @@ export class Container {
     this.bind('app', app)
   }
 
-  public bind(name: string, concrete?: any) {
+  public bind<T>(name: string, concrete?: T): void {
     this.binds[name] = concrete
   }
 
@@ -26,21 +27,24 @@ export class Container {
     throw new Error(`${name} not registered`)
   }
 
-  public static factory(app: Application) {
+  public static factory(app: Application): Container {
     const container = new Container(app)
     wire(container)
     return container
   }
 }
 
-function wire(container: Container) {
-  Puppeteer.launch({ handleSIGINT: false, handleSIGTERM: false }).then(browser => {
-    const pdf = new Pdf(browser)
-    container.bind('pdf', pdf)
-    container.bind('browser', browser)
-  })
+function wire(container: Container): void {
+  Puppeteer.launch({ handleSIGINT: false, handleSIGTERM: false }).then(
+    (browser) => {
+      const pdf = new Pdf(browser)
+      container.bind('pdf', pdf)
+      container.bind('browser', browser)
+    }
+  )
   const logger = Logger.withTag(pkg.name).create({
-    level: process.env.NODE_ENV === 'production' ? LogLevel.Warn : LogLevel.Debug
+    level:
+      process.env.NODE_ENV === 'production' ? LogLevel.Warn : LogLevel.Debug,
   })
   container.bind('logger', logger)
 }
