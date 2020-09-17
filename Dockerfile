@@ -13,24 +13,26 @@ RUN apt-get update \
     && apt-get update \
     && apt-get install -y google-chrome-stable \
      #fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg \ fonts-kacst fonts-freefont-ttf libxss1 --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/* \
-    # setup chrome sandbox
-    && chown root:root ${PUPPETTER_CHROME_DEVEL_SANDBOX} \
-    && chmod 4755t ${PUPPETTER_CHROME_DEVEL_SANDBOX} \
-    && cp -p ./node_modules/puppeteer/.local-chromium/linux-800071/chrome-linux/chrome_sandbox ${CHROME_DEVEL_SANDBOX}
+    && rm -rf /var/lib/apt/lists/*
 
 COPY package.json .
 COPY yarn.lock .
 
 COPY . .
 
-RUN yarn install && yarn test && yarn build \
+RUN yarn install \
+    # setup chrome sandbox
+    && chown root:root ${PUPPETTER_CHROME_DEVEL_SANDBOX} \
+    && chmod 4755t ${PUPPETTER_CHROME_DEVEL_SANDBOX} \
+    && cp -p ./node_modules/puppeteer/.local-chromium/linux-800071/chrome-linux/chrome_sandbox ${CHROME_DEVEL_SANDBOX}
+    # Test and build
+    && yarn test && yarn build \
     # remove dev dependencies
     && yarn install --production --ignore-scripts --prefer-offline \
     && groupadd -r ${APP_USERNAME} && useradd -r -g ${APP_USERNAME} -G audio,video ${APP_USERNAME} \
     && mkdir -p /home/${APP_USERNAME}/Downloads \
     && chown -R ${APP_USERNAME}:${APP_USERNAME} /home/${APP_USERNAME} \
-    && chown -R ${APP_USERNAME}:${APP_USERNAME} /app
+    && chown -R ${APP_USERNAME}:${APP_USERNAME} /app \
 
 # Run everything after as non-privileged user.
 USER ${APP_USERNAME}
