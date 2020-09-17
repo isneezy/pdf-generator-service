@@ -70,6 +70,6 @@ jobs:
       - name: cache build
         uses: actions/cache@v2
         with:
-          path: node_modules
-          key: ${{ runner.os }}-build
+          path: dist
+          key: ${{ runner.os }}-dist
 
