@@ -23,7 +23,7 @@ COPY . .
 RUN yarn install \
     # setup chrome sandbox
     && chown root:root ${PUPPETTER_CHROME_DEVEL_SANDBOX} \
-    && chmod 4755t ${PUPPETTER_CHROME_DEVEL_SANDBOX} \
+    && chmod 4755 ${PUPPETTER_CHROME_DEVEL_SANDBOX} \
     && cp -p ./node_modules/puppeteer/.local-chromium/linux-800071/chrome-linux/chrome_sandbox ${CHROME_DEVEL_SANDBOX} \
     # Test and build
     && yarn test && yarn build \
