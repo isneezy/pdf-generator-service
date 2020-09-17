@@ -19,14 +19,10 @@ COPY package.json .
 COPY yarn.lock .
 
 RUN yarn install
-    # setup chrome sandbox
-#    && chown root:root ${PUPPETTER_CHROME_DEVEL_SANDBOX} \
-#    && chmod 4755 ${PUPPETTER_CHROME_DEVEL_SANDBOX} \
-#    && cp -p ./node_modules/puppeteer/.local-chromium/linux-800071/chrome-linux/chrome_sandbox ${CHROME_DEVEL_SANDBOX} \
-#    && groupadd -r ${APP_USERNAME} && useradd -r -g ${APP_USERNAME} -G audio,video ${APP_USERNAME} \
-#    && mkdir -p /home/${APP_USERNAME}/Downloads \
-#    && chown -R ${APP_USERNAME}:${APP_USERNAME} /home/${APP_USERNAME} \
-#    && chown -R ${APP_USERNAME}:${APP_USERNAME} /app
+    && groupadd -r ${APP_USERNAME} && useradd -r -g ${APP_USERNAME} -G audio,video ${APP_USERNAME} \
+    && mkdir -p /home/${APP_USERNAME}/Downloads \
+    && chown -R ${APP_USERNAME}:${APP_USERNAME} /home/${APP_USERNAME} \
+    && chown -R ${APP_USERNAME}:${APP_USERNAME} /app
 
 COPY . .
 
