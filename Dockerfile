@@ -15,8 +15,8 @@ RUN apt-get update \
      #fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg \ fonts-kacst fonts-freefont-ttf libxss1 --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* \
     # setup chrome sandbox
-    && chown root:root ${PUPPETTER_CHROME_DEVEL_SANDBOX}
-    && chmod 4755t ${PUPPETTER_CHROME_DEVEL_SANDBOX}
+    && chown root:root ${PUPPETTER_CHROME_DEVEL_SANDBOX} \
+    && chmod 4755t ${PUPPETTER_CHROME_DEVEL_SANDBOX} \
     && cp -p ./node_modules/puppeteer/.local-chromium/linux-800071/chrome-linux/chrome_sandbox ${CHROME_DEVEL_SANDBOX}
 
 COPY package.json .
