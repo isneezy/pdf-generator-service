@@ -1,12 +1,10 @@
-name: Test
+name: CI
 
 on:
   push:
-    branches:
-      - master
-    pull_request:
-      branches:
-        - master
+    branches: [master]
+  pull_request:
+      branches: [master]
 
 jobs:
   lint:
@@ -16,7 +14,62 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12.x
+      - name: restore cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules
       - name: install
         run: yarn --check-files --frozen-lockfile --non-interactive
       - name: Lint
         run: yarn lint
+
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: audit
+        run: yarn audit
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: restore cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules
+      - name: install
+        run: yarn --check-files --frozen-lockfile --non-interactive
+      - name: test
+        run: yarn test
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: restore cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules
+      - name: install
+        run: yarn --check-files --frozen-lockfile --non-interactive
+      - name: build
+        run: yarn build
+      - name: cache build
+        uses: actions/cache@v2
+        with:
+          path: dist
+          key: ${{ runner.os }}-dist
+
