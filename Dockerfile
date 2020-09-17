@@ -14,12 +14,15 @@ RUN apt-get update \
 
 COPY package.json .
 COPY yarn.lock .
+RUN yarn install
 
-RUN yarn install \
-    && groupadd -r ${APP_USERNAME} && useradd -r -g ${APP_USERNAME} -G audio,video ${APP_USERNAME} \
-    && mkdir -p /home/${APP_USERNAME}/Downloads \
-    && chown -R ${APP_USERNAME}:${APP_USERNAME} /home/${APP_USERNAME} \
-    && chown -R ${APP_USERNAME}:${APP_USERNAME} ./node_modules
+RUN groupadd -r ${APP_USERNAME} && useradd -r -g ${APP_USERNAME} -G audio,video ${APP_USERNAME} \
+      && mkdir -p /home/${APP_USERNAME}/Downloads \
+      && chown -R ${APP_USERNAME}:${APP_USERNAME} /home/${APP_USERNAME} \
+      && chown -R ${APP_USERNAME}:${APP_USERNAME} ./node_modules
+
+# Run everything after as non-privileged user.
+USER ${APP_USERNAME}
 
 COPY . .
 
@@ -28,8 +31,5 @@ RUN yarn build
 
 # remove dev dependencies
 RUN yarn install --production --ignore-scripts --prefer-offline
-
-# Run everything after as non-privileged user.
-USER ${APP_USERNAME}
 
 
