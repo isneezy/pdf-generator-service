@@ -30,7 +30,7 @@ COPY . .
 USER ${APP_USERNAME}
 
 # Test and build
-RUN && yarn test && yarn build \
+RUN yarn test && yarn build \
     # remove dev dependencies
     && yarn install --production --ignore-scripts --prefer-offline --check-files --frozen-lockfile --non-interactive
 
