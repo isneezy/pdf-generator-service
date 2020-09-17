@@ -1,23 +1,25 @@
 import express from 'express'
-import bodyParser from "body-parser"
-import createRoutes from "./routes";
-import {Container} from "./services/Container";
-import {Consola} from "consola";
+import bodyParser from 'body-parser'
+import createRoutes from './routes'
+import { Container } from './services/Container'
+import { Consola } from 'consola'
 import pkg from '../package.json'
-import {Browser} from "puppeteer";
+import { Browser } from 'puppeteer'
 
-const app = express();
+const app = express()
 const port = process.env.APP_PORT || 3000
 let gracefullyExiting = false
 
-const container = Container.factory(app);
+const container = Container.factory(app)
 const logger = container.resolve<Consola>('logger')
 
 function handleTearDown() {
   gracefullyExiting = true
-  logger.info('Attempting gracefully shutdown of the server, waiting for remaining connections to complete.')
+  logger.info(
+    'Attempting gracefully shutdown of the server, waiting for remaining connections to complete.'
+  )
 
-  server.close( async () => {
+  server.close(async () => {
     logger.info('No more connections, shutting down.')
     const browser = container.resolve<Browser>('browser')
     await browser.close()
@@ -25,7 +27,9 @@ function handleTearDown() {
   })
 
   setTimeout(() => {
-    logger.error('Could not close connections in time, forcefully shutting down.')
+    logger.error(
+      'Could not close connections in time, forcefully shutting down.'
+    )
     process.exit(1)
   }, 30 * 100) // 30s
 }
@@ -45,7 +49,9 @@ app.use((req, res, next) => {
 
 // start the server
 const server = app.listen(port, () => {
-  logger.success(`${pkg.name} v${pkg.version} is running at http://localhost:${port}`)
-});
+  logger.success(
+    `${pkg.name} v${pkg.version} is running at http://localhost:${port}`
+  )
+})
 
 export { app, server }
