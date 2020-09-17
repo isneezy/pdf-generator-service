@@ -35,10 +35,12 @@ export class Container {
 }
 
 function wire(container: Container): void {
+  const args: string[] = (process.env.PUPPETEER_ARGS || '').split(' ')
+  console.log(args)
   Puppeteer.launch({
     handleSIGINT: false,
     handleSIGTERM: false,
-    args: [process.env.PUPPETEER_ARGS || ''],
+    args,
   }).then((browser) => {
     const pdf = new Pdf(browser)
     container.bind('pdf', pdf)
