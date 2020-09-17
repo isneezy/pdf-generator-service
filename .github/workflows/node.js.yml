@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - name: cache
+      - name: restore cache
         uses: actions/cache@v2
         with:
           path: node_modules
@@ -41,7 +41,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - name: cache
+      - name: restore cache
         uses: actions/cache@v2
         with:
           path: node_modules
@@ -50,4 +50,26 @@ jobs:
         run: yarn --check-files --frozen-lockfile --non-interactive
       - name: test
         run: yarn test
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: restore cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules
+      - name: install
+        run: yarn --check-files --frozen-lockfile --non-interactive
+      - name: build
+        run: yarn build
+      - name: cache build
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build
 
