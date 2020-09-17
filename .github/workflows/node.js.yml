@@ -18,3 +18,14 @@ jobs:
         run: yarn --check-files --frozen-lockfile --non-interactive
       - name: Lint
         run: yarn lint
+  test:
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: install
+        run: yarn --check-files --frozen-lockfile --non-interactive
+      - name: test
+        run: yarn test
+
