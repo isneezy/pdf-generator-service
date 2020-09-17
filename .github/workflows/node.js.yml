@@ -31,10 +31,10 @@ jobs:
         with:
           node-version: 12.x
       - name: cache
-          uses: actions/cache@v2
-          with:
-            path: node_modules
-            key: ${{ runner.os }}-node-modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules
       - name: install
         run: yarn --check-files --frozen-lockfile --non-interactive
       - name: test
