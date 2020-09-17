@@ -23,6 +23,17 @@ jobs:
         run: yarn --check-files --frozen-lockfile --non-interactive
       - name: Lint
         run: yarn lint
+
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: audit
+        run: yarn audit
+
   test:
     runs-on: ubuntu-latest
     steps:
