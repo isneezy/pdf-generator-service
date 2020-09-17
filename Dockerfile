@@ -11,26 +11,23 @@ RUN apt-get update \
     && apt-get update \
     && apt-get install -y google-chrome-stable \
      #fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg \ fonts-kacst fonts-freefont-ttf libxss1 --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN groupadd -r ${APP_USERNAME} && useradd -r -g ${APP_USERNAME} -G audio,video ${APP_USERNAME} \
-      && mkdir -p /home/${APP_USERNAME}/Downloads \
-      && chown -R ${APP_USERNAME}:${APP_USERNAME} /home/${APP_USERNAME} \
-      && chown -R ${APP_USERNAME}:${APP_USERNAME} /app
-
-# Run everything after as non-privileged user.
-USER ${APP_USERNAME}
+    && rm -rf /var/lib/apt/lists/* \
+    && sysctl -w kernel.unprivileged_userns_clone=1
 
 COPY package.json .
 COPY yarn.lock .
-RUN yarn install
 
 COPY . .
 
-RUN yarn test
-RUN yarn build
+RUN yarn install && yarn test && yarn build \
+    # remove dev dependencies
+    && yarn install --production --ignore-scripts --prefer-offline \
+    && groupadd -r ${APP_USERNAME} && useradd -r -g ${APP_USERNAME} -G audio,video ${APP_USERNAME} \
+    && mkdir -p /home/${APP_USERNAME}/Downloads \
+    && chown -R ${APP_USERNAME}:${APP_USERNAME} /home/${APP_USERNAME} \
+    && chown -R ${APP_USERNAME}:${APP_USERNAME} /app
 
-# remove dev dependencies
-RUN yarn install --production --ignore-scripts --prefer-offline
+# Run everything after as non-privileged user.
+USER ${APP_USERNAME}
 
 
