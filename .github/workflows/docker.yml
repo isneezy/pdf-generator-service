@@ -13,4 +13,21 @@ jobs:
       - uses: actions/checkout@v2
       - name: build
         run: docker build --cache-from isneezy/pdf-generator-service -t isneezy/pdf-generator-service .
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: start docker container
+        run: docker run -it --rm -p 3000:3000 isneezy/pdf-generator
+      - name: GET /
+        run: curl -v localhost:3000
+      - name: Test Generate Endpoint
+        run: |
+          curl -o test.pdf --location --request POST 'localhost:3000/generate' \
+          --header 'Content-Type: application/json' \
+          --data-raw '{
+              "content": "<h2>Helo</h2>"
+          }'
+          stat test.pdf
+      - name: cleanup
+        run: docker rm -f upbeat_northcutt
 
