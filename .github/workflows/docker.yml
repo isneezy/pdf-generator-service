@@ -7,13 +7,13 @@ on:
       branches: [master]
 
 jobs:
-  build:
+  build-docker-image:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: build
         run: docker build --cache-from isneezy/pdf-generator-service -t isneezy/pdf-generator-service .
-  test:
+  test-docker-image:
     runs-on: ubuntu-latest
     steps:
       - name: start docker container
@@ -30,4 +30,5 @@ jobs:
           stat test.pdf
       - name: cleanup
         run: docker rm -f upbeat_northcutt
+    needs: build-docker-image
 
