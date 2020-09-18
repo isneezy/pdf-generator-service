@@ -1,20 +1,14 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import createRoutes from './routes'
-import { Container } from './services/Container'
-import { Consola } from 'consola'
+// start the server
 import pkg from '../package.json'
+import { app, container } from './app'
+import { Consola } from 'consola'
 import { Browser } from 'puppeteer'
 
-const app = express()
 const port = process.env.APP_PORT || 3000
-let gracefullyExiting = false
-
-const container = Container.factory(app)
 const logger = container.resolve<Consola>('logger')
 
 function handleTearDown() {
-  gracefullyExiting = true
+  app.set('gracefullyExiting', true)
   logger.info(
     'Attempting gracefully shutdown of the server, waiting for remaining connections to complete.'
   )
@@ -37,21 +31,10 @@ function handleTearDown() {
 process.on('SIGINT', handleTearDown)
 process.on('SIGTERM', handleTearDown)
 
-// Configure express application
-app.set('container', container)
-app.use(bodyParser.json())
-app.use(createRoutes(container))
-app.use((req, res, next) => {
-  if (!gracefullyExiting) return next()
-  res.setHeader('Connection', 'close')
-  res.sendStatus(502).send('Server is in the process of shutdown.')
-})
-
-// start the server
 const server = app.listen(port, () => {
   logger.success(
     `${pkg.name} v${pkg.version} is running at http://localhost:${port}`
   )
 })
 
-export { app, server }
+export default server
