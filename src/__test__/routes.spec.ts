@@ -1,9 +1,7 @@
 import request from 'supertest'
 import pkg from '../../package.json'
-import { app, server } from '../index'
-import Puppeteer from 'puppeteer'
-
-afterAll(() => server.close())
+import { app, container } from '../app'
+import Puppeteer, { Browser } from 'puppeteer'
 
 describe('GET /', () => {
   it('shows application name, description, version, author, repository, author and bugs on root path', (done) => {
@@ -29,14 +27,15 @@ describe('POST /generate', () => {
     // dirty hack to fix missing dependency on ioc
     const args: string[] = (process.env.PUPPETEER_ARGS || '').split(' ')
     const browser = await Puppeteer.launch({ args })
-
-    request(app)
+    await request(app)
       .post('/generate')
-      .send({ html: '<h2>Hello</h2>' })
+      .send({ content: '<h2>Hello</h2>' })
       .expect('Content-Type', /pdf/)
-      .expect(200, async () => {
-        await browser.close() // cleanup resources
-        done()
-      })
+      .expect(200)
+
+    // cleanup resources
+    await container.resolve<Browser>('browser').close()
+    await browser.close()
+    done()
   })
 })

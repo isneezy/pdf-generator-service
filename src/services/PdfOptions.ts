@@ -8,8 +8,9 @@ export interface PdfOptions {
 }
 
 export function pdfOptionsFactory(options: Partial<PdfOptions>): PdfOptions {
-  if (!options.content || !options.content.length)
+  if (!options.content || !options.content.length) {
     throw new Error('content should not be empty')
+  }
   return defaults<Partial<PdfOptions>, PdfOptions>(options, {
     content: '',
     format: 'A4',

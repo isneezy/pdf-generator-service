@@ -14,7 +14,8 @@
     "dev": "nodemon src/index.ts",
     "build": "tsc --esModuleInterop --resolveJsonModule --outDir dist src/index.ts",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
-    "test": "jest --forceExit"
+    "pretest": "rm -rf ./dist",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/express": "^4.17.8",

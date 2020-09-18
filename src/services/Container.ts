@@ -36,7 +36,7 @@ export class Container {
 
 function wire(container: Container): void {
   const args: string[] = (process.env.PUPPETEER_ARGS || '').split(' ')
-  console.log(args)
+
   Puppeteer.launch({
     handleSIGINT: false,
     handleSIGTERM: false,
@@ -46,9 +46,11 @@ function wire(container: Container): void {
     container.bind('pdf', pdf)
     container.bind('browser', browser)
   })
+
   const logger = Logger.withTag(pkg.name).create({
     level:
       process.env.NODE_ENV === 'production' ? LogLevel.Warn : LogLevel.Debug,
   })
+
   container.bind('logger', logger)
 }
