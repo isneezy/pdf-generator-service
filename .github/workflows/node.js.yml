@@ -25,6 +25,8 @@ jobs:
         run: yarn lint
 
   audit:
+    paths:
+      - 'yarn.lock'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -36,6 +38,11 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    paths:
+      - 'src/**'
+      - 'jest.config.js'
+      - 'yarn.lock'
+      - 'tsconfig.json'
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -53,6 +60,10 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    paths:
+      - 'src/**'
+      - 'yarn.lock'
+      - 'tsconfig.json'
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1

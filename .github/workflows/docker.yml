@@ -4,11 +4,13 @@ on:
   push:
     branches: [master]
   pull_request:
-      branches: [master]
+    branches: [master]
 
 jobs:
   build-docker-image:
     runs-on: ubuntu-latest
+    paths:
+      - 'Dockerfile'
     steps:
       - uses: actions/checkout@v2
       - name: build
