@@ -1,39 +1,42 @@
-FROM node:lts-stretch-slim
+FROM node:lts-alpine3.12
 
+# Installs Chromium package.
+RUN apk add --no-cache \
+    libstdc++ \
+    chromium \
+    harfbuzz \
+    nss \
+    freetype \
+    ttf-freefont \
+    && rm -rf /var/cache/* \
+    && mkdir /var/cache/apk
+
+# Add Chrome as a user
+RUN mkdir -p /app \
+    && adduser -D chrome \
+    && chown -R chrome:chrome /app
+
+# Run Chrome as non-privileged
+USER chrome
 WORKDIR /app
-ENV APP_USERNAME=appuser
-ENV PUPPETEER_ARGS='--no-sandbox --disable-setuid-sandbox'
-ENV PUPPETTER_CHROME_DEVEL_SANDBOX=./node_modules/puppeteer/.local-chromium/linux-800071/chrome-linux/chrome_sandbox
-ENV CHROME_DEVEL_SANDBOX=/usr/local/sbin/chrome-devel-sandbox
 
-RUN apt-get update \
-    && apt-get install -y wget gnupg \
-    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-    && apt-get update \
-    && apt-get install -y google-chrome-stable \
-     #fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg \ fonts-kacst fonts-freefont-ttf libxss1 --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
+ENV CHROME_BIN=/usr/bin/chromium-browser \
+    CHROME_PATH=/usr/lib/chromium/ \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
+    PUPPETEER_ARGS='--no-sandbox --disable-setuid-sandbox' \
+    PUPPETEER_PREVENT_INTERNAL_CHROMIUM='yes' \
+    PUPPETEER_SKIP_DOWNLOAD='yes'
 
 COPY package.json .
 COPY yarn.lock .
 
-RUN yarn install \
-    && groupadd -r ${APP_USERNAME} && useradd -r -g ${APP_USERNAME} -G audio,video ${APP_USERNAME} \
-    && mkdir -p /home/${APP_USERNAME}/Downloads \
-    && chown -R ${APP_USERNAME}:${APP_USERNAME} /home/${APP_USERNAME} \
-    && chown -R ${APP_USERNAME}:${APP_USERNAME} /app
+RUN yarn install --check-files --frozen-lockfile --non-interactive && yarn cache clean
 
+RUN chown chrome:chrome /app
 COPY . .
 
-# Run everything after as non-privileged user.
-USER ${APP_USERNAME}
-
 # Test and build
-RUN yarn test && yarn build \
-    # remove dev dependencies
-    && yarn install --production --ignore-scripts --prefer-offline --check-files --frozen-lockfile --non-interactive
+RUN yarn test && yarn build
 
-CMD yarn start
-
-
+EXPOSE 3000
+CMD ["node", "dist/src/index.js"]
