@@ -2,7 +2,8 @@
 
 
 [![Build](https://img.shields.io/github/workflow/status/isneezy/pdf-generator-service/CI/master)](https://github.com/isneezy/pdf-generator-service)
-[![example workflow name](https://img.shields.io/docker/cloud/build/isneezy/pdf-generator)](https://hub.docker.com/r/isneezy/pdf-generator)
+[![Docker Build](https://img.shields.io/docker/cloud/build/isneezy/pdf-generator)](https://hub.docker.com/r/isneezy/pdf-generator)
+[![Coverage Status](https://coveralls.io/repos/github/isneezy/pdf-generator-service/badge.svg)](https://coveralls.io/github/isneezy/pdf-generator-service)
 
 
 A simple express service that generates a pdf based on the submitted HTML using Chromium and Puppeteer.
