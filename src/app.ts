@@ -1,21 +1,28 @@
-import express from 'express'
+import express, { Application } from 'express'
 import bodyParser from 'body-parser'
 import createRoutes from './routes'
 import { Container } from './services/Container'
 
-const app = express()
-const container = Container.factory(app)
+export type CreateAppReturnType = {
+  app: Application
+  container: Container
+}
 
-// Configure express application
-app.set('container', container)
-app.set('gracefullyExiting', false)
-app.use(bodyParser.json())
-app.use(createRoutes(container))
+export default async function createApp(): Promise<CreateAppReturnType> {
+  const app = express()
+  const container = await Container.factory(app)
 
-app.use((req, res, next) => {
-  if (!app.get('gracefullyExiting')) return next()
-  res.setHeader('Connection', 'close')
-  res.sendStatus(502).send('Server is in the process of shutdown.')
-})
+  // Configure express application
+  app.set('container', container)
+  app.set('gracefullyExiting', false)
+  app.use(bodyParser.json())
+  app.use(createRoutes(container))
 
-export { app, container }
+  app.use((req, res, next) => {
+    if (!app.get('gracefullyExiting')) return next()
+    res.setHeader('Connection', 'close')
+    res.sendStatus(502).send('Server is in the process of shutdown.')
+  })
+
+  return { app, container }
+}
