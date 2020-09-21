@@ -1,11 +1,17 @@
 import defaults from 'lodash.defaults'
-import { PDFFormat } from 'puppeteer'
+import { LayoutDimension, PDFFormat } from 'puppeteer'
 export type PDFOrientation = 'landscape' | 'portrait'
 export interface PdfOptions {
   orientation: PDFOrientation
   format: PDFFormat
   content: string
   context?: Record<string | number, unknown>
+  margin: {
+    top?: LayoutDimension
+    bottom?: LayoutDimension
+    left?: LayoutDimension
+    right?: LayoutDimension
+  }
 }
 
 export function pdfOptionsFactory(
@@ -18,5 +24,11 @@ export function pdfOptionsFactory(
     content: '',
     format: 'A4',
     orientation: 'portrait',
+    margin: defaults(options.margin, {
+      top: '1.9cm',
+      bottom: '1.9cm',
+      left: '1cm',
+      right: '1cm',
+    }),
   })
 }

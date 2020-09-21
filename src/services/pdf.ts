@@ -23,7 +23,14 @@ export class Pdf {
       return await page.pdf({
         format: options.format,
         landscape: options.orientation == 'landscape',
+        margin: options.margin,
         printBackground: true,
+        displayHeaderFooter: true,
+        footerTemplate:
+          '<div><table style="width: 100%; margin-left: 38px; margin-right: 38px; font-size: 8px; text-align: center">' +
+          '<tr>' +
+          '<td>' +
+          '<p>Página <span class="pageNumber"></span> de <span class="totalPages"></span></p>' +
       })
     } catch (e) {
       throw e
