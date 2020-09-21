@@ -31,9 +31,10 @@ The webserver started by express.js has one JSON endpoint to generate PDFs.
 #### POST `/generate`
 Will generate a PDF based on the given `payload` data and returns the pdf file as a stream
 ```js
-{
- "content": "", // required - HTML string to be converted to PDF
- "orientation: "portrait", // optional - possible values ["portrait", "landscape"]
+const a = {
+ "content": "", // required - HTML string/handlebars template to be converted to PDF,
+ "context": {}, // object with the data to be passed to handlebars template engine
+ "orientation": "portrait", // optional - possible values ["portrait", "landscape"]
  "format": "A4" // optional - possible values  ["Letter", "Legal", "Tabloid", "Ledger", "A0", "A1", "A2", "A3", "A4", "A5", "A6"]
 }
 ```

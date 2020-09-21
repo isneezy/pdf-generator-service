@@ -44,6 +44,23 @@ describe('Pdf', () => {
     expect(new Pdf(browser)).toBeInstanceOf(Pdf)
   })
 
+  it('renders templates when context is available', async () => {
+    const mockedPuppeteer = mocked(puppeteer)
+    const browser = await mockedPuppeteer.launch()
+    const pdf = new Pdf(browser)
+    await pdf.generate(
+      pdfOptionsFactory({
+        content: '<h2>Hello {{ name }}</h2>',
+        context: { name: 'Express PDF Generator' },
+      })
+    )
+
+    expect(pageProto.setContent).lastCalledWith(
+      '<h2>Hello Express PDF Generator</h2>',
+      expect.any(Object)
+    )
+  })
+
   it('generates portrait pdf', async () => {
     await testPdfParam({ orientation: 'portrait' }, { landscape: false })
   })

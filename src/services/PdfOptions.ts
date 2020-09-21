@@ -5,6 +5,7 @@ export interface PdfOptions {
   orientation: PDFOrientation
   format: PDFFormat
   content: string
+  context?: Record<string | number, unknown>
 }
 
 export function pdfOptionsFactory(
