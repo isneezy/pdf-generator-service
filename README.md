@@ -1,10 +1,11 @@
 # Express PDF Generator Service
 
-[![example workflow name](https://github.com/isneezy/pdf-generator-service/workflows/CI/badge.svg?branch=master)](https://github.com/isneezy/pdf-generator-service)
-[![example workflow name](https://github.com/isneezy/pdf-generator-service/workflows/Docker%20Image/badge.svg?branch=master)](https://github.com/isneezy/pdf-generator-service)
+
+[![Build](https://img.shields.io/github/workflow/status/isneezy/pdf-generator-service/CI/master)](https://github.com/isneezy/pdf-generator-service)
+[![example workflow name](https://img.shields.io/docker/cloud/build/isneezy/pdf-generator)](https://hub.docker.com/r/isneezy/pdf-generator)
 
 
-A simple express service that generates a pdf based on the submitted HTML using Chromium and Puppeteer
+A simple express service that generates a pdf based on the submitted HTML using Chromium and Puppeteer.
 
 ## Getting started
 #### Running locally
@@ -21,7 +22,7 @@ yarn start
 ```
 docker run --rm -p 3000:3000 --name=service isneezy/pdf-generator
 ```
-See our [docker repository](https://hub.docker.com/r/isneezy/pdf-generator) for specific tag/version
+Check our [docker hub repository](https://hub.docker.com/r/isneezy/pdf-generator) for available tags
 
 ## API
 The webserver started by express.js has one JSON endpoint to generate PDFs.
@@ -30,8 +31,8 @@ The webserver started by express.js has one JSON endpoint to generate PDFs.
 Will generate a PDF based on the given `payload` data and returns the pdf file as a stream
 ```js
 {
- "content": "" // required - HTML string to be converted to PDF
- "orientation: "portrait" // optional - possible values ["portrait", "landscape"],
+ "content": "", // required - HTML string to be converted to PDF
+ "orientation: "portrait", // optional - possible values ["portrait", "landscape"]
  "format": "A4" // optional - possible values  ["Letter", "Legal", "Tabloid", "Ledger", "A0", "A1", "A2", "A3", "A4", "A5", "A6"]
 }
 ```
@@ -39,8 +40,8 @@ Will generate a PDF based on the given `payload` data and returns the pdf file a
 ##### Example
 ```json
 {
- "content": "<h2>Express PDF Generator Service</h2>"
- "orientation: "landscape",
+ "content": "<h2>Express PDF Generator Service</h2>",
+ "orientation": "landscape",
  "format": "A5"
 }
 ```
