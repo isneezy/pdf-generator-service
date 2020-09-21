@@ -16,18 +16,15 @@ export class Pdf {
     const page = await this.browser.newPage()
     try {
       await page.setContent(options.content, { waitUntil: 'networkidle2' })
-      const pdf = await page.pdf({
+      return await page.pdf({
         format: options.format,
         landscape: options.orientation == 'landscape',
         printBackground: true,
       })
-      await page.close()
-      return pdf
     } catch (e) {
-      if (page) {
-        await page.close()
-      }
-      throw new e()
+      throw e
+    } finally {
+      await page.close()
     }
   }
 }
