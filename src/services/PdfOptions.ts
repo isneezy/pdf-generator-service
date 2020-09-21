@@ -7,7 +7,9 @@ export interface PdfOptions {
   content: string
 }
 
-export function pdfOptionsFactory(options: Partial<PdfOptions>): PdfOptions {
+export function pdfOptionsFactory(
+  options: Partial<PdfOptions> & { content: string }
+): PdfOptions {
   if (!options.content || !options.content.length) {
     throw new Error('content should not be empty')
   }
