@@ -1,7 +1,7 @@
 import request from 'supertest'
 import pkg from '../../package.json'
 import createApp, { CreateAppReturnType } from '../app'
-import Puppeteer, { Browser } from 'puppeteer'
+import { Browser } from 'puppeteer'
 
 let instance: CreateAppReturnType | undefined
 
