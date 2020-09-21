@@ -7,14 +7,23 @@ import pkg from '../../package.json'
 
 export class Container {
   private readonly binds: Record<string, any>
+  private readonly promises: Promise<any>[] = []
 
   private constructor(app: Application) {
     this.binds = {}
     this.bind('app', app)
   }
 
-  public bind<T>(name: string, concrete?: T): void {
-    this.binds[name] = concrete
+  public bind<T>(name: string, concrete?: T | Promise<any>): void {
+    if (concrete instanceof Promise) {
+      this.promises.push(concrete)
+      concrete.then(() => {
+        const index = this.promises.findIndex((p) => p === concrete)
+        this.promises.splice(index, 1)
+      })
+    } else {
+      this.binds[name] = concrete
+    }
   }
 
   resolve<T>(name: string): T {
@@ -27,25 +36,25 @@ export class Container {
     throw new Error(`${name} not registered`)
   }
 
-  public static factory(app: Application): Container {
+  public static async factory(app: Application): Promise<Container> {
     const container = new Container(app)
-    wire(container)
+    await wire(container)
     return container
   }
 }
 
-function wire(container: Container): void {
+async function wire(container: Container): Promise<void> {
   const args: string[] = (process.env.PUPPETEER_ARGS || '').split(' ')
 
-  Puppeteer.launch({
+  const browser = await Puppeteer.launch({
     handleSIGINT: false,
     handleSIGTERM: false,
     args,
-  }).then((browser) => {
-    const pdf = new Pdf(browser)
-    container.bind('pdf', pdf)
-    container.bind('browser', browser)
   })
+
+  const pdf = new Pdf(browser)
+  container.bind('pdf', pdf)
+  container.bind('browser', browser)
 
   const logger = Logger.withTag(pkg.name).create({
     level:
