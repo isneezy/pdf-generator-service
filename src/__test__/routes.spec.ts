@@ -3,6 +3,11 @@ import pkg from '../../package.json'
 import { app, container } from '../app'
 import Puppeteer, { Browser } from 'puppeteer'
 
+afterAll(async () => {
+  // cleanup resources
+  await container.resolve<Browser>('browser').close()
+})
+
 describe('GET /', () => {
   it('shows application name, description, version, author, repository, author and bugs on root path', (done) => {
     const response = request(app).get('/')
@@ -27,15 +32,17 @@ describe('POST /generate', () => {
     // dirty hack to fix missing dependency on ioc
     const args: string[] = (process.env.PUPPETEER_ARGS || '').split(' ')
     const browser = await Puppeteer.launch({ args })
-    await request(app)
-      .post('/generate')
-      .send({ content: '<h2>Hello</h2>' })
-      .expect('Content-Type', /pdf/)
-      .expect(200)
-
-    // cleanup resources
-    await container.resolve<Browser>('browser').close()
-    await browser.close()
+    try {
+      await request(app)
+        .post('/generate')
+        .send({ content: '<h2>Hello</h2>' })
+        .expect('Content-Type', /pdf/)
+        .expect(200)
+      await browser.close()
+    } catch (e) {
+      await browser.close()
+      throw e
+    }
     done()
   })
 })
