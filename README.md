@@ -7,6 +7,7 @@
 A simple express service that generates a pdf based on the submitted HTML using Chromium and Puppeteer
 
 ## Getting started
+#### Running locally
 ```bash
 ## build
 yarn install
@@ -16,6 +17,11 @@ node ./dist/src/index.js
 ## Or simply
 yarn start
 ```
+#### Running with docker
+```
+docker run --rm -p 3000:3000 --name=service isneezy/pdf-generator
+```
+See our [docker repository](https://hub.docker.com/r/isneezy/pdf-generator) for specific tag/version
 
 ## API
 The webserver started by express.js has one JSON endpoint to generate PDFs.
