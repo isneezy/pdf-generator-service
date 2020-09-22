@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Support for handlebars templates
-- Page borders `{ top: '1.9 cm', bottom: '1.9 cm', left: '1 cm', right: '1 cm' }`
+- Page borders `{ top: '1.9 cm', bottom: '1.9 cm', left: '1.9 cm', right: '1.9 cm' }`
+- Header and Footer template support
 
 ## [0.1.0] - 2020-09-21
 ### Added
