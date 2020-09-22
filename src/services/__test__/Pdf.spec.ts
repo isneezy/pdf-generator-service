@@ -72,10 +72,10 @@ describe('Pdf', () => {
   it('should wrap header and footer templates', async () => {
     const footer = '<span>This is a footer</span>'
     const wrappedFooter =
-      '<div style="font-size: 8px"><span>This is a footer</span></div>'
+      '<div style="margin: 0 1.2cm; font-size: 8px"><span>This is a footer</span></div>'
     const header = '<span>This is a header</span>'
     const wrappedHeader =
-      '<div style="font-size: 8px"><span>This is a header</span></div>'
+      '<div style="margin: 0 1.2cm; font-size: 8px"><span>This is a header</span></div>'
 
     await testPdfParam(
       { footer, header },
