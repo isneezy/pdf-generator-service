@@ -1,7 +1,14 @@
-import { pdfOptionsFactory, PDFOrientation } from '../PdfOptions'
-import { PDFFormat } from 'puppeteer'
+import { PdfOptions, pdfOptionsFactory } from '../PdfOptions'
+import { throws } from 'assert'
 
 describe('PdfOptions', () => {
+  it('must trow error with message `content should not be empty` when content is empty', () => {
+    throws(
+      () => pdfOptionsFactory({ content: '' }),
+      /content should not be empty/
+    )
+  })
+
   it('pdfOptionsFactory can be called only with content', () => {
     const options = pdfOptionsFactory({ content: '<div>Testing</div>' })
     expect(options.content).toBe('<div>Testing</div>')
