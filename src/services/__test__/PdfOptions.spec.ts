@@ -1,4 +1,4 @@
-import { PdfOptions, pdfOptionsFactory, PDFOrientation } from '../PdfOptions'
+import { pdfOptionsFactory, PDFOrientation } from '../PdfOptions'
 import { PDFFormat } from 'puppeteer'
 
 describe('PdfOptions', () => {
