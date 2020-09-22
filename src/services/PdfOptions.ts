@@ -2,8 +2,8 @@ import defaults from 'lodash.defaults'
 import { LayoutDimension, PDFFormat } from 'puppeteer'
 export type PDFOrientation = 'landscape' | 'portrait'
 export interface PdfOptions {
-  orientation: PDFOrientation
-  format: PDFFormat
+  orientation?: PDFOrientation
+  format?: PDFFormat
   content: string
   context?: Record<string | number, unknown>
   header?: string
@@ -16,9 +16,7 @@ export interface PdfOptions {
   }
 }
 
-export function pdfOptionsFactory(
-  options: Partial<PdfOptions> & { content: string }
-): PdfOptions {
+export function pdfOptionsFactory(options: PdfOptions): PdfOptions {
   if (!options.content || !options.content.length) {
     throw new Error('content should not be empty')
   }

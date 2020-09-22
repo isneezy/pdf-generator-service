@@ -79,7 +79,11 @@ describe('Pdf', () => {
 
     await testPdfParam(
       { footer, header },
-      { footerTemplate: wrappedFooter, headerTemplate: wrappedHeader }
+      {
+        footerTemplate: wrappedFooter,
+        headerTemplate: wrappedHeader,
+        displayHeaderFooter: true,
+      }
     )
   })
 })
