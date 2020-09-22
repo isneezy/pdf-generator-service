@@ -6,7 +6,7 @@ export interface PdfOptions {
   format: PDFFormat
   content: string
   context?: Record<string | number, unknown>
-  margin: {
+  margin?: {
     top?: LayoutDimension
     bottom?: LayoutDimension
     left?: LayoutDimension

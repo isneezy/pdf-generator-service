@@ -1,4 +1,5 @@
-import { PdfOptions, pdfOptionsFactory } from '../PdfOptions'
+import { PdfOptions, pdfOptionsFactory, PDFOrientation } from '../PdfOptions'
+import { PDFFormat } from 'puppeteer'
 
 describe('PdfOptions', () => {
   it('pdfOptionsFactory can be called only with content', () => {
@@ -9,10 +10,10 @@ describe('PdfOptions', () => {
   })
 
   it('default parameters can be replaced', () => {
-    const params: PdfOptions = {
+    const params = {
       content: '<h2>Hello</h2>',
-      orientation: 'landscape',
-      format: 'Letter',
+      orientation: 'landscape' as PDFOrientation,
+      format: 'Letter' as PDFFormat,
     }
     const options = pdfOptionsFactory(params)
     expect(options).toMatchObject(params)
