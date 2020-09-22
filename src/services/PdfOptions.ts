@@ -29,8 +29,8 @@ export function pdfOptionsFactory(options: PdfOptions): PdfOptions {
     margin: defaults(options.margin, {
       top: '1.9cm',
       bottom: '1.9cm',
-      left: '1cm',
-      right: '1cm',
+      left: '1.9cm',
+      right: '1.9cm',
     }),
   })
 }

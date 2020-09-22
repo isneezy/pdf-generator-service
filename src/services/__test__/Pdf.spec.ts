@@ -68,22 +68,4 @@ describe('Pdf', () => {
   it('generates landscape pdf', async () => {
     await testPdfParam({ orientation: 'landscape' }, { landscape: true })
   })
-
-  it('should wrap header and footer templates', async () => {
-    const footer = '<span>This is a footer</span>'
-    const wrappedFooter =
-      '<div style="margin: 0 1.2cm; font-size: 8px"><span>This is a footer</span></div>'
-    const header = '<span>This is a header</span>'
-    const wrappedHeader =
-      '<div style="margin: 0 1.2cm; font-size: 8px"><span>This is a header</span></div>'
-
-    await testPdfParam(
-      { footer, header },
-      {
-        footerTemplate: wrappedFooter,
-        headerTemplate: wrappedHeader,
-        displayHeaderFooter: true,
-      }
-    )
-  })
 })
