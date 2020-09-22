@@ -6,6 +6,8 @@ export interface PdfOptions {
   format: PDFFormat
   content: string
   context?: Record<string | number, unknown>
+  header?: string
+  footer?: string
   margin?: {
     top?: LayoutDimension
     bottom?: LayoutDimension
@@ -22,6 +24,8 @@ export function pdfOptionsFactory(
   }
   return defaults<Partial<PdfOptions>, PdfOptions>(options, {
     content: '',
+    footer: '',
+    header: '',
     format: 'A4',
     orientation: 'portrait',
     margin: defaults(options.margin, {
