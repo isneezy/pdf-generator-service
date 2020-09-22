@@ -36,6 +36,8 @@ Will generate a PDF based on the given `payload` data and returns the pdf file a
  "context": {}, // object with the data to be passed to handlebars template engine
  "orientation": "portrait", // optional - possible values ["portrait", "landscape"]
  "format": "A4" // optional - possible values  ["Letter", "Legal", "Tabloid", "Ledger", "A0", "A1", "A2", "A3", "A4", "A5", "A6"]
+ "header": "", // optional - HTML template for the print header. See https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagepdfoptions
+ "footer": "" // optional - HTML template for the print footer. See https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagepdfoptions
 }
 ```
 
