@@ -1,5 +1,8 @@
 import { PdfOptions } from './services/PdfOptions'
 import handlebars from 'handlebars'
+import { JSDOM } from 'jsdom'
+import UID from 'uid-safe'
+import { query } from 'express'
 
 type TemplateType = string | undefined
 export function compileHeaderOrFooterTemplate(
@@ -23,4 +26,43 @@ export function compileHeaderOrFooterTemplate(
     return handlebars.compile(printTemplate)(context)
   }
   return printTemplate
+}
+
+declare type TocEntry = {
+  id: string
+  title: string
+  level: string
+  href: string
+}
+
+export const prepareToc = (options: PdfOptions) => {
+  const document = new JSDOM(options.content).window.document
+
+  document.querySelectorAll('.print-toc').forEach((el) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // el.style['page-break-before'] = 'always'
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    el.style['page-break-after'] = 'always'
+  })
+
+  const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
+  const tocEntries: TocEntry[] = []
+
+  headings.forEach((h) => {
+    const title = h.textContent || ''
+    if (title && title.length) {
+      const id = h.id || UID.sync(16)
+      const level = h.tagName.substr(1)
+      h.id = id
+      tocEntries.push({ id, title, level, href: `#${id}` })
+    }
+  })
+
+  options.content = document.documentElement.outerHTML
+  options.context = {
+    ...options.context,
+    _toc: tocEntries,
+  }
 }

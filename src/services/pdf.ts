@@ -1,7 +1,10 @@
 import { Browser } from 'puppeteer'
 import handlebars from 'handlebars'
 import { PdfOptions, pdfOptionsFactory } from './PdfOptions'
-import { compileHeaderOrFooterTemplate } from '../utils'
+import {
+  compileHeaderOrFooterTemplate,
+  prepareToc,
+} from '../utils'
 
 export const PAPER_FORMATS = ['A3', 'A4', 'A5', 'Legal', 'Letter', 'Tabloid']
 export const PAGE_ORIENTATIONS = ['portrait', 'landscape']
@@ -16,6 +19,7 @@ export class Pdf {
   public async generate(options: PdfOptions): Promise<Buffer> {
     options = pdfOptionsFactory(options)
     const page = await this.browser.newPage()
+    prepareToc(options)
     try {
       if (options.context) {
         options.content = handlebars.compile(options.content)(options.context)
