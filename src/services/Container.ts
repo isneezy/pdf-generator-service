@@ -45,11 +45,14 @@ export class Container {
 
 async function wire(container: Container): Promise<void> {
   const args: string[] = (process.env.PUPPETEER_ARGS || '').split(' ')
+  // Produce tagged PDFs, better for accessibility;
+  // Hopefully will also produce an Outline (ToC) eventually.
+  // See: https://github.com/danburzo/percollate/issues/47
 
   const browser = await Puppeteer.launch({
     handleSIGINT: false,
     handleSIGTERM: false,
-    args,
+    args: args.concat('--export-tagged-pdf'),
   })
 
   const pdf = new Pdf(browser)
