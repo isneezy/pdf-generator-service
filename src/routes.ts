@@ -12,18 +12,7 @@ export default function createRoutes(iocContainer: Container): Router {
   const router = Router()
 
   router.get('/', (req, res) => {
-    res.json(
-      pick(
-        pkg,
-        'name',
-        'description',
-        'version',
-        'homepage',
-        'author',
-        'repository',
-        'bugs'
-      )
-    )
+    res.json(pick(pkg, 'name', 'description', 'version', 'homepage', 'author', 'repository', 'bugs'))
   })
 
   router.post('/generate', async (req, res) => {

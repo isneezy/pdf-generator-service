@@ -26,7 +26,7 @@ export function compileHeaderOrFooterTemplate(template: TemplateType, options: P
   return printTemplate
 }
 
-export const prepareToc = (options: PdfOptions) => {
+export function prepareToc(options: PdfOptions): void {
   const document = new JSDOM(options.content).window.document
   const tocElement: HTMLElement | null = document.querySelector('.print-toc')
 
@@ -55,20 +55,7 @@ export const prepareToc = (options: PdfOptions) => {
   options.content = document.documentElement.outerHTML
 }
 
-export function extractCover(options: PdfOptions): void {
-  const document = new JSDOM(options.content).window.document
-  const cover = document.querySelector('.print-cover')
-  if (cover) {
-    cover.parentElement?.removeChild(cover)
-    options.content = document.documentElement.outerHTML
-    // todo uncomment when ready
-    // options.printCover = new JSDOM(
-    //   cover.innerHTML
-    // ).window.document.documentElement.outerHTML
-  }
-}
-
-export async function enhanceContent(options: PdfOptions) {
+export async function enhanceContent(options: PdfOptions): Promise<void> {
   options.content = await inlineCss(options.content, {
     applyLinkTags: true,
     applyStyleTags: true,

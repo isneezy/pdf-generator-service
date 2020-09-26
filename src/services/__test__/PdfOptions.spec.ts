@@ -4,10 +4,7 @@ import { PDFFormat } from 'puppeteer'
 
 describe('PdfOptions', () => {
   it('must trow error with message `content should not be empty` when content is empty', () => {
-    throws(
-      () => pdfOptionsFactory({ content: '' }),
-      /content should not be empty/
-    )
+    throws(() => pdfOptionsFactory({ content: '' }), /content should not be empty/)
   })
 
   it('pdfOptionsFactory can be called only with content', () => {

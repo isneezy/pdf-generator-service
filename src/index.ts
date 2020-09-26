@@ -13,9 +13,7 @@ createApp().then(({ app, container }) => {
 
   function handleTearDown() {
     app.set('gracefullyExiting', true)
-    logger.info(
-      'Attempting gracefully shutdown of the server, waiting for remaining connections to complete.'
-    )
+    logger.info('Attempting gracefully shutdown of the server, waiting for remaining connections to complete.')
 
     server.close(async () => {
       logger.info('No more connections, shutting down.')
@@ -25,9 +23,7 @@ createApp().then(({ app, container }) => {
     })
 
     setTimeout(() => {
-      logger.error(
-        'Could not close connections in time, forcefully shutting down.'
-      )
+      logger.error('Could not close connections in time, forcefully shutting down.')
       process.exit(1)
     }, 30 * 100) // 30s
   }
@@ -36,9 +32,7 @@ createApp().then(({ app, container }) => {
   process.on('SIGTERM', handleTearDown)
 
   const server = app.listen(port, () => {
-    logger.success(
-      `${pkg.name} v${pkg.version} is running at http://localhost:${port}`
-    )
+    logger.success(`${pkg.name} v${pkg.version} is running at http://localhost:${port}`)
   })
 })
 
