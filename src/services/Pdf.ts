@@ -1,0 +1,62 @@
+import { Browser, Page, PDFOptions } from 'puppeteer'
+import handlebars from 'handlebars'
+import { PdfOptions, pdfOptionsFactory } from './PdfOptions'
+import { enhanceContent } from '../util'
+import { mergePDFs, extractPDFToc } from '../util/pdf'
+
+export const PAPER_FORMATS = ['A3', 'A4', 'A5', 'Legal', 'Letter', 'Tabloid']
+export const PAGE_ORIENTATIONS = ['portrait', 'landscape']
+
+export class Pdf {
+  private browser: Browser
+
+  constructor(browser: Browser) {
+    this.browser = browser
+  }
+
+  public async generate(options: PdfOptions): Promise<Buffer> {
+    options = pdfOptionsFactory(options)
+    const page = await this.browser.newPage()
+    await enhanceContent(options)
+
+    try {
+      const pdfBuffer = await Pdf.generateContent(options, page)
+      return Pdf.generateToc(pdfBuffer, options, page)
+    } catch (e) {
+      throw e
+    } finally {
+      await page.close()
+    }
+  }
+
+  private static async generateContent(options: PdfOptions, page: Page): Promise<Buffer> {
+    await page.setContent(options.content, { waitUntil: 'networkidle2' })
+    const pdfOptions = Pdf.buildPdfArguments(options, false)
+    return await page.pdf(pdfOptions)
+  }
+
+  private static async generateToc(pdfBuffer: Buffer, options: PdfOptions, page: Page): Promise<Buffer> {
+    if (options.tocTemplate) {
+      await extractPDFToc(pdfBuffer, options)
+      const tocTemplate = handlebars.compile(options.tocTemplate)(options.tocContext)
+      await page.setContent(tocTemplate)
+      const pdfOptions = Pdf.buildPdfArguments(options, true)
+      const tocPdfBuffer = await page.pdf(pdfOptions)
+      return await mergePDFs(pdfBuffer, tocPdfBuffer)
+    }
+
+    return pdfBuffer
+  }
+
+  private static buildPdfArguments(options: PdfOptions, toc: boolean): PDFOptions {
+    return {
+      format: options.format,
+      landscape: options.orientation == 'landscape',
+      margin: options.margin,
+      printBackground: true,
+      displayHeaderFooter: toc ? false : options.displayHeaderFooter,
+      headerTemplate: options.header,
+      footerTemplate: options.footer,
+    }
+  }
+}

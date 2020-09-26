@@ -16,6 +16,7 @@ export interface PdfOptions {
   context?: Record<string, unknown>
   header?: string
   footer?: string
+  displayHeaderFooter?: boolean
   tocTemplate?: string
   tocContext: {
     totalPages: number
@@ -29,7 +30,7 @@ export interface PdfOptions {
   }
 }
 
-export function pdfOptionsFactory(options: PdfOptions): PdfOptions {
+export function pdfOptionsFactory(options: Partial<PdfOptions>): PdfOptions {
   if (!options.content || !options.content.length) {
     throw new Error('content should not be empty')
   }

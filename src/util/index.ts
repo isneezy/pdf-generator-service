@@ -1,20 +1,12 @@
-import { PdfOptions, TocEntry } from './services/PdfOptions'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-// import PdfParser from 'j-pdfjson'
-import parsePdf from 'pdf-parse'
+import { PdfOptions } from '../services/PdfOptions'
 import handlebars from 'handlebars'
 import { JSDOM } from 'jsdom'
 import UID from 'uid-safe'
 import inlineCss from 'inline-css'
-import { PDFDocument } from 'pdf-lib'
 
 type TemplateType = string | undefined
 
-export function compileHeaderOrFooterTemplate(
-  template: TemplateType,
-  options: PdfOptions
-): string {
+export function compileHeaderOrFooterTemplate(template: TemplateType, options: PdfOptions): string {
   // Currently the header and footer on chromium does not inherit the document styles.
   // This issue causes them to render with font-size: 0 and causes them to render on the edge of the page
   // has a dirty fix we will force it to be rendered with some sensible defaults and it can be override by setting an inner style.
@@ -35,11 +27,9 @@ export function compileHeaderOrFooterTemplate(
 }
 
 export const prepareToc = (options: PdfOptions) => {
-  console.log(options.content)
   const document = new JSDOM(options.content).window.document
-
   const tocElement: HTMLElement | null = document.querySelector('.print-toc')
-  console.log(tocElement)
+
   if (tocElement) {
     tocElement.style.pageBreakAfter = 'always'
     // Extract TOC template and include the default html head tag
@@ -65,70 +55,17 @@ export const prepareToc = (options: PdfOptions) => {
   options.content = document.documentElement.outerHTML
 }
 
-export const extractToc = async (
-  pdfBuffer: Buffer,
-  options: PdfOptions
-): Promise<void> => {
-  const PAGE_BREAK_MARKER = '\n------page-break------'
-  function renderPage(pageData: any) {
-    //check documents https://mozilla.github.io/pdf.js/
-    const render_options = {
-      //replaces all occurrences of whitespace with standard spaces (0x20). The default value is `false`.
-      normalizeWhitespace: false,
-      //do not attempt to combine same line TextItem's. The default value is `false`.
-      disableCombineTextItems: false,
-    }
-
-    return pageData.getTextContent(render_options).then((textContent: any) => {
-      let lastY,
-        text = ''
-      for (const item of textContent.items) {
-        if (lastY == item.transform[5] || !lastY) {
-          text += item.str
-        } else {
-          text += '\n' + item.str
-        }
-        lastY = item.transform[5]
-      }
-      return text + PAGE_BREAK_MARKER
-    })
+export function extractCover(options: PdfOptions): void {
+  const document = new JSDOM(options.content).window.document
+  const cover = document.querySelector('.print-cover')
+  if (cover) {
+    cover.parentElement?.removeChild(cover)
+    options.content = document.documentElement.outerHTML
+    // todo uncomment when ready
+    // options.printCover = new JSDOM(
+    //   cover.innerHTML
+    // ).window.document.documentElement.outerHTML
   }
-  const OPTIONS = {
-    pagerender: renderPage,
-  }
-  const data = await parsePdf(pdfBuffer, OPTIONS)
-  data.text
-    .split(PAGE_BREAK_MARKER)
-    .forEach((content: string, pageIndex: number) => {
-      options.tocContext.totalPages = pageIndex + 1
-      options.tocContext._toc.map((entry) => {
-        if (content.includes(entry.title)) {
-          entry.page = options.tocContext.totalPages
-        }
-        return entry
-      })
-    })
-}
-
-  options.content = document.documentElement.outerHTML
-  options.context = {
-    ...options.context,
-    _toc: tocEntries,
-  }
-export async function mergePDFs(
-  document: Buffer,
-  toc: Buffer
-): Promise<Uint8Array> {
-  const docuPDF = await PDFDocument.load(document)
-  const tocPDF = await PDFDocument.load(toc)
-  const indices = tocPDF.getPages().map((page, index) => {
-    docuPDF.removePage(index)
-    return index
-  })
-
-  const pages = await docuPDF.copyPages(tocPDF, indices)
-  pages.forEach((page, index) => docuPDF.insertPage(index, page))
-  return docuPDF.save()
 }
 
 export async function enhanceContent(options: PdfOptions) {
@@ -144,4 +81,18 @@ export async function enhanceContent(options: PdfOptions) {
     removeStyleTags: true,
     url: ' ',
   })
+  prepareToc(options)
+
+  if (options.context) {
+    options.content = handlebars.compile(options.content)({
+      ...options.context,
+      ...options.tocContext,
+    })
+  }
+
+  options.displayHeaderFooter = !!(options.header || options.footer)
+  if (options.displayHeaderFooter) {
+    options.header = compileHeaderOrFooterTemplate(options.header, options)
+    options.footer = compileHeaderOrFooterTemplate(options.footer, options)
+  }
 }

@@ -2,7 +2,7 @@
 import { Application } from 'express'
 import Puppeteer from 'puppeteer'
 import Logger, { LogLevel } from 'consola'
-import { Pdf } from './pdf'
+import { Pdf } from './Pdf'
 import pkg from '../../package.json'
 
 export class Container {
@@ -68,8 +68,7 @@ async function wire(container: Container): Promise<void> {
   container.bind('browser', browser)
 
   const logger = Logger.withTag(pkg.name).create({
-    level:
-      process.env.NODE_ENV === 'production' ? LogLevel.Warn : LogLevel.Debug,
+    level: process.env.NODE_ENV === 'production' ? LogLevel.Warn : LogLevel.Debug,
   })
 
   container.bind('logger', logger)

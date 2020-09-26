@@ -1,5 +1,5 @@
-import { pdfOptionsFactory } from '../services/PdfOptions'
-import { compileHeaderOrFooterTemplate } from '../utils'
+import { pdfOptionsFactory } from '../../services/PdfOptions'
+import { compileHeaderOrFooterTemplate } from '..'
 
 describe('utils.ts', () => {
   it('should wrap the template with a div with margin and font size', () => {
