@@ -35,6 +35,17 @@ describe('utils.ts', () => {
     expect(options.tocContext._toc).toStrictEqual([{ id: 'test', title: 'hello', level: 1, href: `#test` }])
   })
 
+  it('should add ids to heading tag if none are available', function () {
+    const content = '<div class="print-toc"></div><h1>hello</h1><h2>hello2</h2>'
+    const options = pdfOptionsFactory({ content })
+    prepareToc(options)
+
+    expect(options.tocContext._toc).toStrictEqual([
+      expect.objectContaining({ id: expect.anything(), level: 1 }),
+      expect.objectContaining({ id: expect.anything(), level: 2 }),
+    ])
+  })
+
   it('should compile and inject header and footer template if any of them is present', async () => {
     const content = '<h1>Hello</h1>'
     const template = '{{{ pageNumber }}} {{{totalPages}}} {{{date}}} {{{title}}} {{{url}}}'
