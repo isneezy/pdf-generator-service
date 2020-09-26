@@ -6,6 +6,7 @@ import {
   prepareToc,
   extractToc,
   enhanceContent,
+  mergePDFs,
 } from '../utils'
 
 export const PAPER_FORMATS = ['A3', 'A4', 'A5', 'Legal', 'Letter', 'Tabloid']
@@ -55,7 +56,9 @@ export class Pdf {
           options.tocContext
         )
         await page.setContent(tocTemplate)
-        return await page.pdf(pdfOptions)
+        const tocPDF = await page.pdf(pdfOptions)
+        const bytes = await mergePDFs(renderedPDF, tocPDF)
+        return Buffer.from(bytes)
       }
 
       return renderedPDF

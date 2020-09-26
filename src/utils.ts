@@ -7,6 +7,7 @@ import handlebars from 'handlebars'
 import { JSDOM } from 'jsdom'
 import UID from 'uid-safe'
 import inlineCss from 'inline-css'
+import { PDFDocument } from 'pdf-lib'
 
 type TemplateType = string | undefined
 
@@ -99,8 +100,11 @@ export const extractToc = async (
   data.text
     .split(PAGE_BREAK_MARKER)
     .forEach((content: string, pageIndex: number) => {
+      options.tocContext.totalPages = pageIndex + 1
       options.tocContext._toc.map((entry) => {
-        if (content.includes(entry.title)) entry.page = pageIndex + 1
+        if (content.includes(entry.title)) {
+          entry.page = options.tocContext.totalPages
+        }
         return entry
       })
     })
@@ -111,6 +115,21 @@ export const extractToc = async (
     ...options.context,
     _toc: tocEntries,
   }
+export async function mergePDFs(
+  document: Buffer,
+  toc: Buffer
+): Promise<Uint8Array> {
+  const docuPDF = await PDFDocument.load(document)
+  const tocPDF = await PDFDocument.load(toc)
+  const indices = tocPDF.getPages().map((page, index) => {
+    docuPDF.removePage(index)
+    return index
+  })
+
+  const pages = await docuPDF.copyPages(tocPDF, indices)
+  pages.forEach((page, index) => docuPDF.insertPage(index, page))
+  return docuPDF.save()
+}
 
 export async function enhanceContent(options: PdfOptions) {
   options.content = await inlineCss(options.content, {
