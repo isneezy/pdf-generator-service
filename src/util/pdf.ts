@@ -31,10 +31,9 @@ function pageRender(pageData: any) {
 export const extractPDFToc = async (pdfBuffer: Buffer, options: PdfOptions): Promise<void> => {
   const data = await parsePdf(pdfBuffer, { pagerender: pageRender })
   data.text.split(PAGE_BREAK_MARKER).forEach((content: string, pageIndex: number) => {
-    options.tocContext.totalPages = pageIndex + 1
     options.tocContext._toc.map((entry) => {
       if (content.includes(entry.title)) {
-        entry.page = options.tocContext.totalPages
+        entry.page = pageIndex + 1
       }
       return entry
     })
@@ -45,7 +44,7 @@ export async function mergePDFs(document: Buffer, toc: Buffer): Promise<Buffer> 
   const docuPDF = await PDFDocument.load(document)
   const tocPDF = await PDFDocument.load(toc)
   const indices = tocPDF.getPages().map((page, index) => {
-    docuPDF.removePage(index)
+    docuPDF.removePage(0)
     return index
   })
 

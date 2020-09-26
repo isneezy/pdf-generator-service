@@ -19,7 +19,6 @@ export interface PdfOptions {
   displayHeaderFooter?: boolean
   tocTemplate?: string
   tocContext: {
-    totalPages: number
     _toc: TocEntry[]
   }
   margin?: {
@@ -41,7 +40,7 @@ export function pdfOptionsFactory(options: Partial<PdfOptions>): PdfOptions {
     header: '',
     format: 'A4',
     orientation: 'portrait',
-    tocContext: { _toc: [], totalPages: 0 },
+    tocContext: { _toc: [] },
     margin: defaults(options.margin, {
       top: '1.9cm',
       bottom: '1.9cm',

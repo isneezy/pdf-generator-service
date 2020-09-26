@@ -21,7 +21,7 @@ export class Pdf {
 
     try {
       const pdfBuffer = await Pdf.generateContent(options, page)
-      return Pdf.generateToc(pdfBuffer, options, page)
+      return await Pdf.generateToc(pdfBuffer, options, page)
     } catch (e) {
       throw e
     } finally {
