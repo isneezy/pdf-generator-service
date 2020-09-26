@@ -2,7 +2,6 @@ import { PdfOptions } from './services/PdfOptions'
 import handlebars from 'handlebars'
 import { JSDOM } from 'jsdom'
 import UID from 'uid-safe'
-import { query } from 'express'
 
 type TemplateType = string | undefined
 export function compileHeaderOrFooterTemplate(
@@ -38,13 +37,10 @@ declare type TocEntry = {
 export const prepareToc = (options: PdfOptions) => {
   const document = new JSDOM(options.content).window.document
 
-  document.querySelectorAll('.print-toc').forEach((el) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // el.style['page-break-before'] = 'always'
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    el.style['page-break-after'] = 'always'
+  document.querySelectorAll('.print-toc').forEach((el: Element) => {
+    const element = <HTMLElement>el
+    element.style.pageBreakAfter = 'always'
+    element.style.pageBreakBefore = 'always'
   })
 
   const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
