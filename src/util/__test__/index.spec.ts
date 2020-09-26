@@ -19,6 +19,23 @@ describe('utils.ts', () => {
     expect(compileHeaderOrFooterTemplate(template, options)).toBe(expected)
   })
 
+  it('should compile and inject header and footer template if any of them is present', async () => {
+    const content = '<h1>Hello</h1>'
+    const template = '{{{ pageNumber }}} {{{totalPages}}} {{{date}}} {{{title}}} {{{url}}}'
+    const options = pdfOptionsFactory({ content, header: template, footer: template })
+    await enhanceContent(options)
+
+    expect(options.displayHeaderFooter).toBeTruthy()
+    expect(options.header).toBe(
+      `<div style="margin: 0 1.9cm 0 1.9cm; font-size: 8px"><span class="pageNumber"></span> <span class="pageNumber"></span> <span class="date"></span> <span class="title"></span> <span class="url"></span></div>`
+    )
+    expect(options.footer).toBe(
+      `<div style="margin: 0 1.9cm 0 1.9cm; font-size: 8px"><span class="pageNumber"></span> <span class="pageNumber"></span> <span class="date"></span> <span class="title"></span> <span class="url"></span></div>`
+    )
+  })
+})
+
+describe('prepareToc from src/utils.ts', () => {
   it('should render TOC when element with `.print-toc` class is present', () => {
     const content =
       '<div class="print-toc">{{#each _toc}}<a href="{{this.id}}">{{this.title}}</a>{{/each}}</div><h1 id="test">hello</h1>'
@@ -44,20 +61,5 @@ describe('utils.ts', () => {
       expect.objectContaining({ id: expect.anything(), level: 1 }),
       expect.objectContaining({ id: expect.anything(), level: 2 }),
     ])
-  })
-
-  it('should compile and inject header and footer template if any of them is present', async () => {
-    const content = '<h1>Hello</h1>'
-    const template = '{{{ pageNumber }}} {{{totalPages}}} {{{date}}} {{{title}}} {{{url}}}'
-    const options = pdfOptionsFactory({ content, header: template, footer: template })
-    await enhanceContent(options)
-
-    expect(options.displayHeaderFooter).toBeTruthy()
-    expect(options.header).toBe(
-      `<div style="margin: 0 1.9cm 0 1.9cm; font-size: 8px"><span class="pageNumber"></span> <span class="pageNumber"></span> <span class="date"></span> <span class="title"></span> <span class="url"></span></div>`
-    )
-    expect(options.footer).toBe(
-      `<div style="margin: 0 1.9cm 0 1.9cm; font-size: 8px"><span class="pageNumber"></span> <span class="pageNumber"></span> <span class="date"></span> <span class="title"></span> <span class="url"></span></div>`
-    )
   })
 })
