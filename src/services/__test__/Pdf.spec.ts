@@ -50,13 +50,13 @@ describe('Pdf', () => {
     const pdf = new Pdf(browser)
     await pdf.generate(
       pdfOptionsFactory({
-        content: '<h2>Hello {{ name }}</h2>',
+        content: '<h2 id="myId">Hello {{ name }}</h2>',
         context: { name: 'Express PDF Generator' },
       })
     )
 
     expect(pageProto.setContent).lastCalledWith(
-      '<h2>Hello Express PDF Generator</h2>',
+      expect.stringMatching(/<h2 id="myId">Hello Express PDF Generator<\/h2>/),
       expect.any(Object)
     )
   })
