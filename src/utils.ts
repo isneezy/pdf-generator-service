@@ -1,9 +1,15 @@
-import { PdfOptions } from './services/PdfOptions'
+import { PdfOptions, TocEntry } from './services/PdfOptions'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// import PdfParser from 'j-pdfjson'
+import parsePdf from 'pdf-parse'
 import handlebars from 'handlebars'
 import { JSDOM } from 'jsdom'
 import UID from 'uid-safe'
+import inlineCss from 'inline-css'
 
 type TemplateType = string | undefined
+
 export function compileHeaderOrFooterTemplate(
   template: TemplateType,
   options: PdfOptions
@@ -27,38 +33,96 @@ export function compileHeaderOrFooterTemplate(
   return printTemplate
 }
 
-declare type TocEntry = {
-  id: string
-  title: string
-  level: string
-  href: string
-}
-
 export const prepareToc = (options: PdfOptions) => {
+  console.log(options.content)
   const document = new JSDOM(options.content).window.document
 
-  document.querySelectorAll('.print-toc').forEach((el: Element) => {
-    const element = <HTMLElement>el
-    element.style.pageBreakAfter = 'always'
-    element.style.pageBreakBefore = 'always'
-  })
+  const tocElement: HTMLElement | null = document.querySelector('.print-toc')
+  console.log(tocElement)
+  if (tocElement) {
+    tocElement.style.pageBreakAfter = 'always'
+    // Extract TOC template and include the default html head tag
+    const tocDocument = new JSDOM(options.content).window.document
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const bodyEl = tocDocument.querySelector('body') as HTMLElement
+    bodyEl.innerHTML = tocElement.outerHTML
+    options.tocTemplate = tocDocument.documentElement.outerHTML
 
-  const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
-  const tocEntries: TocEntry[] = []
+    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
 
-  headings.forEach((h) => {
-    const title = h.textContent || ''
-    if (title && title.length) {
-      const id = h.id || UID.sync(16)
-      const level = h.tagName.substr(1)
-      h.id = id
-      tocEntries.push({ id, title, level, href: `#${id}` })
+    headings.forEach((h) => {
+      const title = h.textContent || ''
+      if (title && title.length) {
+        const id = h.id || UID.sync(16)
+        const level = h.tagName.substr(1)
+        h.id = id
+        options.tocContext._toc.push({ id, title, level, href: `#${id}` })
+      }
+    })
+  }
+  options.content = document.documentElement.outerHTML
+}
+
+export const extractToc = async (
+  pdfBuffer: Buffer,
+  options: PdfOptions
+): Promise<void> => {
+  const PAGE_BREAK_MARKER = '\n------page-break------'
+  function renderPage(pageData: any) {
+    //check documents https://mozilla.github.io/pdf.js/
+    const render_options = {
+      //replaces all occurrences of whitespace with standard spaces (0x20). The default value is `false`.
+      normalizeWhitespace: false,
+      //do not attempt to combine same line TextItem's. The default value is `false`.
+      disableCombineTextItems: false,
     }
-  })
+
+    return pageData.getTextContent(render_options).then((textContent: any) => {
+      let lastY,
+        text = ''
+      for (const item of textContent.items) {
+        if (lastY == item.transform[5] || !lastY) {
+          text += item.str
+        } else {
+          text += '\n' + item.str
+        }
+        lastY = item.transform[5]
+      }
+      return text + PAGE_BREAK_MARKER
+    })
+  }
+  const OPTIONS = {
+    pagerender: renderPage,
+  }
+  const data = await parsePdf(pdfBuffer, OPTIONS)
+  data.text
+    .split(PAGE_BREAK_MARKER)
+    .forEach((content: string, pageIndex: number) => {
+      options.tocContext._toc.map((entry) => {
+        if (content.includes(entry.title)) entry.page = pageIndex + 1
+        return entry
+      })
+    })
+}
 
   options.content = document.documentElement.outerHTML
   options.context = {
     ...options.context,
     _toc: tocEntries,
   }
+
+export async function enhanceContent(options: PdfOptions) {
+  options.content = await inlineCss(options.content, {
+    applyLinkTags: true,
+    applyStyleTags: true,
+    applyTableAttributes: true,
+    applyWidthAttributes: true,
+    extraCss: '',
+    preserveMediaQueries: true,
+    removeHtmlSelectors: true,
+    removeLinkTags: true,
+    removeStyleTags: true,
+    url: ' ',
+  })
 }
