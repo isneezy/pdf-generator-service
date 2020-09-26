@@ -5,7 +5,7 @@ export type PDFOrientation = 'landscape' | 'portrait'
 export type TocEntry = {
   id: string
   title: string
-  level: string
+  level: number
   href: string
   page?: number
 }

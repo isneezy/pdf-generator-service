@@ -11,19 +11,16 @@ export function compileHeaderOrFooterTemplate(template: TemplateType, options: P
   // This issue causes them to render with font-size: 0 and causes them to render on the edge of the page
   // has a dirty fix we will force it to be rendered with some sensible defaults and it can be override by setting an inner style.
   const printTemplate = `<div style="margin: 0 ${options.margin?.right} 0 ${options.margin?.left}; font-size: 8px">${template}</div>`
-  if (options.context) {
-    const context = {
-      ...options.context,
-      options,
-      date: '<span class="date"></span>',
-      title: '<span class="title"></span>',
-      url: '<span class="url"></span>',
-      pageNumber: '<span class="pageNumber"></span>',
-      totalPages: '<span class="pageNumber"></span>',
-    }
-    return handlebars.compile(printTemplate)(context)
+  const context = {
+    ...options.context,
+    options,
+    date: '<span class="date"></span>',
+    title: '<span class="title"></span>',
+    url: '<span class="url"></span>',
+    pageNumber: '<span class="pageNumber"></span>',
+    totalPages: '<span class="pageNumber"></span>',
   }
-  return printTemplate
+  return handlebars.compile(printTemplate)(context)
 }
 
 export function prepareToc(options: PdfOptions): void {
@@ -46,13 +43,26 @@ export function prepareToc(options: PdfOptions): void {
       const title = h.textContent || ''
       if (title && title.length) {
         const id = h.id || UID.sync(16)
-        const level = h.tagName.substr(1)
+        const level = Number.parseInt(h.tagName.substr(1))
         h.id = id
         options.tocContext._toc.push({ id, title, level, href: `#${id}` })
       }
     })
   }
   options.content = document.documentElement.outerHTML
+}
+
+export function extractCover(options: PdfOptions): void {
+  const document = new JSDOM(options.content).window.document
+  const cover = document.querySelector('.print-cover')
+  if (cover) {
+    cover.parentElement?.removeChild(cover)
+    options.content = document.documentElement.outerHTML
+    // todo uncomment when ready
+    // options.printCover = new JSDOM(
+    //   cover.innerHTML
+    // ).window.document.documentElement.outerHTML
+  }
 }
 
 export async function enhanceContent(options: PdfOptions): Promise<void> {
