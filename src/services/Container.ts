@@ -53,6 +53,14 @@ async function wire(container: Container): Promise<void> {
     handleSIGINT: false,
     handleSIGTERM: false,
     args: args.concat('--export-tagged-pdf'),
+    defaultViewport: {
+      // Emulate retina display (@2x)...
+      deviceScaleFactor: 2,
+      // ...but then we need to provide the other
+      // viewport parameters as well
+      width: 1920,
+      height: 1080,
+    },
   })
 
   const pdf = new Pdf(browser)
