@@ -47,7 +47,7 @@
     "handlebars": "^4.7.6",
     "lodash.defaults": "^4.2.0",
     "lodash.pick": "^4.4.0",
-    "puppeteer": "^5.2.1",
+    "puppeteer": "^5.3.1",
     "uid-safe": "^2.1.5"
   }
 }
