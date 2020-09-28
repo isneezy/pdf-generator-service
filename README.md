@@ -51,3 +51,27 @@ Will generate a PDF based on the given `payload` data and returns the pdf file a
  "footer": "<p>{{ name }} &copy; {{{ date }}}, page {{{ pageNumber }}} of {{{ totalPages }}}</p>"
 }
 ```
+
+##### Generating table of contents (TOCs)
+PDF Generator Service can generate TOCs for your document. All you have to do is simply add the template for your TOCs inside an element with `.print-toc` class.
+  
+**Note**:
+1. This feature highly relies on semantic HTML, which means that all heading tags (h1, h2, h3, h4, h5, and h6) will be used to create your TOCs. 
+2. TOCs will always appear or be rendered on the first pages of your document.
+```html
+<html>
+<body>
+<div class="print-toc">
+<h1>Table of contents</h1>
+{{#each _toc}}
+<a style="display: flex; margin-bottom: 6px; text-decoration: none; color: inherit" href="{{ this.href }}">
+    <div>{{ this.title }}</div>
+    <div style="margin: 0 4px; flex: 1; border-bottom: 2px dotted black"></div>
+    <div>{{ this.page }}</div>
+</a>
+{{/each}}
+</div>
+<!-- place your document markup content here and all heading tags will be used to create TOCs -->
+</body>
+</html>
+```
