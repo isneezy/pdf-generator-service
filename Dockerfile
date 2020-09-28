@@ -34,21 +34,19 @@ ENV CHROME_BIN=/usr/bin/chromium-browser \
 
 FROM base AS BUILDER
 
-COPY package.json .
-COPY yarn.lock .
+COPY --chrow=chrome:chrome package.json .
+COPY --chrow=chrome:chrome yarn.lock .
 
-RUN yarn install --check-files --frozen-lockfile --non-interactive
-RUN ls -la && yarn cache dir
-RUN chown chrome:chrome /app
+RUN yarn install --check-files --frozen-lockfile --non-interactive && yarn cache dir
 COPY . .
 
 # Test and build
 RUN yarn test && yarn build
 
 FROM base
-COPY --from=BUILDER  /app/dist ./dist
-COPY package.json .
-COPY yarn.lock .
+COPY --from=BUILDER --chrow=chrome:chrome  /app/dist ./dist
+COPY --chrow=chrome:chrome package.json .
+COPY --chrow=chrome:chrome yarn.lock .
 
 RUN yarn install --production && yarn cache clean
 

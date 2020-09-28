@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Start using edge repository for the docker image, so we can get the most recent chromium build.
+- Start using docker multistage build to reduce image size.
 
 ## [0.1.0] - 2020-09-21
 
