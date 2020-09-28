@@ -24,6 +24,8 @@ export function compileHeaderOrFooterTemplate(template: TemplateType, options: P
 }
 
 export function prepareToc(options: PdfOptions): void {
+  const tocIgnoreClass = 'toc-ignore'
+  const headingSelectors = 'h1, h2, h3, h4, h5, h6'
   const document = new JSDOM(options.content).window.document
   const tocElement: HTMLElement | null = document.querySelector('.print-toc')
 
@@ -31,15 +33,17 @@ export function prepareToc(options: PdfOptions): void {
     tocElement.style.pageBreakAfter = 'always'
     // Extract TOC template and include the default html head tag
     const tocDocument = new JSDOM(options.content).window.document
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     const bodyEl = tocDocument.querySelector('body') as HTMLElement
+
+    // Exclude headings inside toc template from the toc itself
+    tocElement.querySelectorAll(headingSelectors).forEach((h) => h.classList.add(tocIgnoreClass))
+
     bodyEl.innerHTML = tocElement.outerHTML
     options.tocTemplate = tocDocument.documentElement.outerHTML
+    options.content = document.documentElement.outerHTML
 
-    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
-
-    headings.forEach((h) => {
+    document.querySelectorAll(headingSelectors).forEach((h) => {
+      if (h.classList.contains(tocIgnoreClass)) return
       const title = h.textContent || ''
       if (title && title.length) {
         const id = h.id || UID.sync(16)
@@ -49,7 +53,6 @@ export function prepareToc(options: PdfOptions): void {
       }
     })
   }
-  options.content = document.documentElement.outerHTML
 }
 
 export async function enhanceContent(options: PdfOptions): Promise<void> {

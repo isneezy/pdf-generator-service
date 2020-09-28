@@ -62,4 +62,16 @@ describe('prepareToc from src/utils.ts', () => {
       expect.objectContaining({ id: expect.anything(), level: 2 }),
     ])
   })
+
+  it('should add .toc-ignore class to all headings inside toc template', () => {
+    const content = '<div class="print-toc"><h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><h6></h6></div>'
+    const options = pdfOptionsFactory({ content })
+    prepareToc(options)
+    expect(options.content).toMatch(/<h1 class="toc-ignore"><\/h1>/)
+    expect(options.content).toMatch(/<h2 class="toc-ignore"><\/h2>/)
+    expect(options.content).toMatch(/<h3 class="toc-ignore"><\/h3>/)
+    expect(options.content).toMatch(/<h4 class="toc-ignore"><\/h4>/)
+    expect(options.content).toMatch(/<h5 class="toc-ignore"><\/h5>/)
+    expect(options.content).toMatch(/<h6 class="toc-ignore"><\/h6>/)
+  })
 })

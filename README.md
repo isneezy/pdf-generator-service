@@ -56,7 +56,8 @@ Will generate a PDF based on the given `payload` data and returns the pdf file a
 PDF Generator Service can generate TOCs for your document. All you have to do is simply add the template for your TOCs inside an element with `.print-toc` class.
   
 **Note**:
-1. This feature highly relies on semantic HTML, which means that all heading tags (h1, h2, h3, h4, h5, and h6) will be used to create your TOCs. 
+1. This feature highly relies on semantic HTML, which means that all heading tags (h1, h2, h3, h4, h5, and h6) will be used to create your TOCs.
+Add `toc-ignore` class to a heading tag if you want to ignore. 
 2. TOCs will always appear or be rendered on the first pages of your document.
 ```html
 <html>
