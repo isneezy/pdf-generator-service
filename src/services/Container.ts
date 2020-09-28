@@ -2,7 +2,7 @@
 import { Application } from 'express'
 import Puppeteer from 'puppeteer'
 import Logger, { LogLevel } from 'consola'
-import { Pdf } from './pdf'
+import { Pdf } from './Pdf'
 import pkg from '../../package.json'
 
 export class Container {
@@ -45,11 +45,22 @@ export class Container {
 
 async function wire(container: Container): Promise<void> {
   const args: string[] = (process.env.PUPPETEER_ARGS || '').split(' ')
+  // Produce tagged PDFs, better for accessibility;
+  // Hopefully will also produce an Outline (ToC) eventually.
+  // See: https://github.com/danburzo/percollate/issues/47
 
   const browser = await Puppeteer.launch({
     handleSIGINT: false,
     handleSIGTERM: false,
-    args,
+    args: args.concat('--export-tagged-pdf'),
+    defaultViewport: {
+      // Emulate retina display (@2x)...
+      deviceScaleFactor: 2,
+      // ...but then we need to provide the other
+      // viewport parameters as well
+      width: 1920,
+      height: 1080,
+    },
   })
 
   const pdf = new Pdf(browser)
@@ -57,8 +68,7 @@ async function wire(container: Container): Promise<void> {
   container.bind('browser', browser)
 
   const logger = Logger.withTag(pkg.name).create({
-    level:
-      process.env.NODE_ENV === 'production' ? LogLevel.Warn : LogLevel.Debug,
+    level: process.env.NODE_ENV === 'production' ? LogLevel.Warn : LogLevel.Debug,
   })
 
   container.bind('logger', logger)

@@ -2,7 +2,7 @@ import { Router } from 'express'
 import pick from 'lodash.pick'
 import pkg from '../package.json'
 import { pdfOptionsFactory } from './services/PdfOptions'
-import { Pdf } from './services/pdf'
+import { Pdf } from './services/Pdf'
 import { validatePayload } from './payloadValidator'
 import { Container } from './services/Container'
 import { Consola } from 'consola'
@@ -12,18 +12,7 @@ export default function createRoutes(iocContainer: Container): Router {
   const router = Router()
 
   router.get('/', (req, res) => {
-    res.json(
-      pick(
-        pkg,
-        'name',
-        'description',
-        'version',
-        'homepage',
-        'author',
-        'repository',
-        'bugs'
-      )
-    )
+    res.json(pick(pkg, 'name', 'description', 'version', 'homepage', 'author', 'repository', 'bugs'))
   })
 
   router.post('/generate', async (req, res) => {
