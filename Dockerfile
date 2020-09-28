@@ -1,4 +1,4 @@
-FROM node:lts-alpine3.12
+FROM node:lts-alpine3.12 AS base
 
 # Installs latest Chromium package.
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories \
@@ -32,16 +32,25 @@ ENV CHROME_BIN=/usr/bin/chromium-browser \
     PUPPETEER_PREVENT_INTERNAL_CHROMIUM='yes' \
     PUPPETEER_SKIP_DOWNLOAD='yes'
 
+FROM base AS BUILDER
+
 COPY package.json .
 COPY yarn.lock .
 
-RUN yarn install --check-files --frozen-lockfile --non-interactive && yarn cache clean
-
+RUN yarn install --check-files --frozen-lockfile --non-interactive
+RUN ls -la && yarn cache dir
 RUN chown chrome:chrome /app
 COPY . .
 
 # Test and build
 RUN yarn test && yarn build
+
+FROM base
+COPY --from=BUILDER  /app/dist ./dist
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn install --production && yarn cache clean
 
 EXPOSE 3000
 CMD ["node", "dist/src/index.js"]
