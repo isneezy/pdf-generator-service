@@ -4475,10 +4475,10 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-pdf-lib@^1.11.1:
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/pdf-lib/-/pdf-lib-1.11.1.tgz#1de63751d97b2f06e10dde26c786fc6d9ad50d40"
-  integrity sha512-gfMG3AKmKriMitbDZLBU2paVk3moAHtr03l79Y8bt+exSA4jBJyetLbzT8/S73suLWn37ZfWpp8vVWPHi7KNdA==
+pdf-lib@^1.11.2:
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/pdf-lib/-/pdf-lib-1.11.2.tgz#8a95f98523944f3c16957bd6fa51a2e1d97fcfd1"
+  integrity sha512-iRnG3/dbh5EmPKQtE/JpPD4fCucsMcVccD111pcoX08U16ZIMtZnfTwsphT3GXpwUR+Md0tGTd8z7nkL50nNwg==
   dependencies:
     "@pdf-lib/standard-fonts" "^1.0.0"
     "@pdf-lib/upng" "^1.0.1"
