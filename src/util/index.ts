@@ -45,7 +45,7 @@ export function prepareToc(options: PdfOptions): void {
     document.querySelectorAll(headingSelectors).forEach((h) => {
       if (h.classList.contains(tocIgnoreClass)) return
       const title = h.textContent || ''
-      if (title && title.length) {
+      if (title && title.trim().length) {
         const id = h.id || UID.sync(16)
         const level = Number.parseInt(h.tagName.substr(1))
         h.id = id
