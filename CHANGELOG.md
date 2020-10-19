@@ -1,3 +1,12 @@
+## [0.2.1](https://github.com/isneezy/pdf-generator-service/compare/v0.2.0...v0.2.1) (2020-10-19)
+
+
+### Bug Fixes
+
+* **toc:** don't include empty headings on TOCs ([10a922a](https://github.com/isneezy/pdf-generator-service/commit/10a922a18446f31f56f183e470cf529971a21bfc))
+* disable semantic release NPM publishing ([56858a4](https://github.com/isneezy/pdf-generator-service/commit/56858a4eb80e12394dd5117a02ce5afede463b97))
+* **security:** remove semantic release dependency ([d3d36dc](https://github.com/isneezy/pdf-generator-service/commit/d3d36dc1d0b3988686b05d61752af814382e2bb7))
+
 # Changelog
 All notable changes to this project will be documented in this file.
 
