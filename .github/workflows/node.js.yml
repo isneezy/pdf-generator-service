@@ -8,10 +8,9 @@ on:
 
 jobs:
   CI:
-    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    # if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     runs-on: ubuntu-latest
     steps:
-      - run: echo "${{ toJson(github.event.commits) }}"
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
