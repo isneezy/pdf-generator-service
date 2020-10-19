@@ -1,3 +1,10 @@
+## [0.2.2](https://github.com/isneezy/pdf-generator-service/compare/v0.2.1...v0.2.2) (2020-10-19)
+
+
+### Bug Fixes
+
+* **release:** make semantic-release update package.json version. ([b5c9f44](https://github.com/isneezy/pdf-generator-service/commit/b5c9f44594d3af8e72cc73752b52b9a9d2ad07a4))
+
 ## [0.2.1](https://github.com/isneezy/pdf-generator-service/compare/v0.2.0...v0.2.1) (2020-10-19)
 
 
