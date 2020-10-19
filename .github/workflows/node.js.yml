@@ -7,8 +7,9 @@ on:
       branches: [master]
 
 jobs:
-  lint:
+  CI:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -21,54 +22,20 @@ jobs:
           key: ${{ runner.os }}-node-modules
       - name: install
         run: yarn --check-files --frozen-lockfile --non-interactive
+
       - name: Lint
         run: yarn lint
 
-  audit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
       - name: audit
         run: yarn audit
 
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-      - name: restore cache
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules
-      - name: install
-        run: yarn --check-files --frozen-lockfile --non-interactive
       - name: test
-        run: yarn test --collectCoverage
+      run: yarn test --collectCoverage
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-      - name: restore cache
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules
-      - name: install
-        run: yarn --check-files --frozen-lockfile --non-interactive
       - name: build
         run: yarn build
       - name: cache build
@@ -76,19 +43,11 @@ jobs:
         with:
           path: dist
           key: ${{ runner.os }}-dist
-  release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12'
-      - run: yarn install --frozen-lockfile
-      - run: yarn build
+
       - name: Release
-        if: ${{ contains(github.ref, 'master') || contains(github.ref, 'next') }}
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+          if: ${{ contains(github.ref, 'master') || contains(github.ref, 'next') }}
+          env:
+            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: npx semantic-release
 
