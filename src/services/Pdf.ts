@@ -1,8 +1,7 @@
 import { Browser, Page, PDFOptions } from 'puppeteer'
-import handlebars from 'handlebars'
 import { PdfOptions, pdfOptionsFactory } from './PdfOptions'
 import { enhanceContent } from '../util'
-import { mergePDFs, extractPDFToc } from '../util/pdf'
+import { extractPDFToc } from '../util/pdf'
 
 export const PAPER_FORMATS = ['A3', 'A4', 'A5', 'Legal', 'Letter', 'Tabloid']
 export const PAGE_ORIENTATIONS = ['portrait', 'landscape']
