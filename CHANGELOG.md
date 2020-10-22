@@ -1,3 +1,10 @@
+## [0.2.3](https://github.com/isneezy/pdf-generator-service/compare/v0.2.2...v0.2.3) (2020-10-22)
+
+
+### Bug Fixes
+
+* **toc:** links are now clickable and no more wrong page numbers ([#57](https://github.com/isneezy/pdf-generator-service/issues/57)) ([455fd60](https://github.com/isneezy/pdf-generator-service/commit/455fd6084cc5fac01233aa5d3c7c8e3bbcadbfaf))
+
 ## [0.2.2](https://github.com/isneezy/pdf-generator-service/compare/v0.2.1...v0.2.2) (2020-10-19)
 
 
