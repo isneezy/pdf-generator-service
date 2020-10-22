@@ -50,8 +50,8 @@ export const extractPDFToc = async (pdfBuffer: Buffer, options: PdfOptions): Pro
       ...options.tocContext,
     })
     options.tocTemplate = tocElement.outerHTML
-    options.content = document.documentElement.outerHTML
   }
+  options.content = document.documentElement.outerHTML
 }
 
 export async function mergePDFs(document: Buffer, toc: Buffer): Promise<Buffer> {
