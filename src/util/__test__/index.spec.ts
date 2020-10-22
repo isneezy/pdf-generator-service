@@ -74,4 +74,13 @@ describe('prepareToc from src/utils.ts', () => {
     expect(options.content).toMatch(/<h5 class="toc-ignore"><\/h5>/)
     expect(options.content).toMatch(/<h6 class="toc-ignore"><\/h6>/)
   })
+
+  it('should insert an element with removeAfterTocExtraction and heading id as its contents', function () {
+    const content = '<div class="print-toc"></div><h1 id="hel1">hello</h1><h2>hello2</h2>'
+    const options = pdfOptionsFactory({ content })
+    prepareToc(options)
+    options.tocContext._toc.forEach((data) =>
+      expect(options.content).toContain(`class="removeAfterTocExtraction">${data.id}<`)
+    )
+  })
 })

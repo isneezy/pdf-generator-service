@@ -65,4 +65,18 @@ describe('Pdf', () => {
   it('generates landscape pdf', async () => {
     await testPdfParam({ orientation: 'landscape' }, { landscape: true })
   })
+
+  it('generates toc when .print-toc template is available', async () => {
+    const mockedPuppeteer = mocked(puppeteer)
+    const browser = await mockedPuppeteer.launch()
+    const pdf = new Pdf(browser)
+    await pdf.generate(
+      pdfOptionsFactory({
+        content: `
+        <div class="print-toc"></div>
+        <h2 id="myId">Hello {{ name }}</h2>`,
+        context: { name: 'Express PDF Generator' },
+      })
+    )
+  })
 })

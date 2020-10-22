@@ -40,7 +40,6 @@ export function prepareToc(options: PdfOptions): void {
 
     bodyEl.innerHTML = tocElement.outerHTML
     options.tocTemplate = tocDocument.documentElement.outerHTML
-    options.content = document.documentElement.outerHTML
 
     document.querySelectorAll(headingSelectors).forEach((h) => {
       if (h.classList.contains(tocIgnoreClass)) return
@@ -49,10 +48,12 @@ export function prepareToc(options: PdfOptions): void {
         const id = h.id || UID.sync(16)
         const level = Number.parseInt(h.tagName.substr(1))
         h.id = id
+        h.innerHTML = `${title}<span class="removeAfterTocExtraction">${id}</span>`
         options.tocContext._toc.push({ id, title, level, href: `#${id}` })
       }
     })
   }
+  options.content = document.documentElement.outerHTML
 }
 
 export async function enhanceContent(options: PdfOptions): Promise<void> {

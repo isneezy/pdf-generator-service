@@ -6,12 +6,17 @@ import { extractPDFToc, mergePDFs } from '../pdf'
 describe('/src/util/pdf.ts', () => {
   it('should extract page numbers for TOCs', async () => {
     const options = pdfOptionsFactory({
-      content: '<p></p>',
+      content: `
+        <div class="print-toc"></div>
+        <h1 id="1">Page 1<span class="removeAfterTocExtraction">Page 1</span></h1>
+        <h1 id="2">Page 2<span class="removeAfterTocExtraction">Page 2</span></h1>
+        <h1 id="3">Page 3<span class="removeAfterTocExtraction">Page 3</span></h1>
+      `,
       tocContext: {
         _toc: [
-          { id: '', title: 'Page 1', href: '', level: 1 },
-          { id: '', title: 'Page 2', href: '', level: 1 },
-          { id: '', title: 'Page 3', href: '', level: 1 },
+          { id: 'Page 1', title: 'Page 1', href: '', level: 1 },
+          { id: 'Page 2', title: 'Page 2', href: '', level: 1 },
+          { id: 'Page 3', title: 'Page 3', href: '', level: 1 },
         ],
       },
     })
@@ -23,6 +28,9 @@ describe('/src/util/pdf.ts', () => {
       expect.objectContaining({ page: 2 }),
       expect.objectContaining({ page: 3 }),
     ])
+    expect(options.content).not.toContain('<span class="removeAfterTocExtraction">Page 1</span>')
+    expect(options.content).not.toContain('<span class="removeAfterTocExtraction">Page 2</span>')
+    expect(options.content).not.toContain('<span class="removeAfterTocExtraction">Page 3</span>')
   })
   it('should merge two PDF files', async () => {
     const pdfBuffer = fs.readFileSync(path.join(__dirname, '/sample.pdf'))

@@ -1,8 +1,7 @@
 import { Browser, Page, PDFOptions } from 'puppeteer'
-import handlebars from 'handlebars'
 import { PdfOptions, pdfOptionsFactory } from './PdfOptions'
 import { enhanceContent } from '../util'
-import { mergePDFs, extractPDFToc } from '../util/pdf'
+import { extractPDFToc } from '../util/pdf'
 
 export const PAPER_FORMATS = ['A3', 'A4', 'A5', 'Legal', 'Letter', 'Tabloid']
 export const PAGE_ORIENTATIONS = ['portrait', 'landscape']
@@ -30,7 +29,7 @@ export class Pdf {
   }
 
   private static async generateContent(options: PdfOptions, page: Page): Promise<Buffer> {
-    await page.setContent(options.content, { waitUntil: 'networkidle2' })
+    await page.setContent(options.content, { waitUntil: 'networkidle0' })
     const pdfOptions = Pdf.buildPdfArguments(options, false)
     return await page.pdf(pdfOptions)
   }
@@ -38,11 +37,9 @@ export class Pdf {
   private static async generateToc(pdfBuffer: Buffer, options: PdfOptions, page: Page): Promise<Buffer> {
     if (options.tocTemplate) {
       await extractPDFToc(pdfBuffer, options)
-      const tocTemplate = handlebars.compile(options.tocTemplate)(options.tocContext)
-      await page.setContent(tocTemplate)
-      const pdfOptions = Pdf.buildPdfArguments(options, true)
-      const tocPdfBuffer = await page.pdf(pdfOptions)
-      return await mergePDFs(pdfBuffer, tocPdfBuffer)
+      await page.setContent(options.content, { waitUntil: 'networkidle0' })
+      const pdfOptions = Pdf.buildPdfArguments(options, false)
+      return await page.pdf(pdfOptions)
     }
 
     return pdfBuffer

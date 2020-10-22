@@ -1,6 +1,8 @@
 import parsePdf from 'pdf-parse'
 import { PdfOptions } from '../services/PdfOptions'
 import { PDFDocument } from 'pdf-lib'
+import { JSDOM } from 'jsdom'
+import * as handlebars from 'handlebars'
 
 const PAGE_BREAK_MARKER = '\n------page-break------'
 
@@ -32,12 +34,24 @@ export const extractPDFToc = async (pdfBuffer: Buffer, options: PdfOptions): Pro
   const data = await parsePdf(pdfBuffer, { pagerender: pageRender })
   data.text.split(PAGE_BREAK_MARKER).forEach((content: string, pageIndex: number) => {
     options.tocContext._toc.map((entry) => {
-      if (content.includes(entry.title)) {
+      if (content.includes(entry.id)) {
         entry.page = pageIndex + 1
       }
       return entry
     })
   })
+
+  const document = new JSDOM(options.content).window.document
+  const tocElement: HTMLElement | null = document.querySelector('.print-toc')
+  document.querySelectorAll('.removeAfterTocExtraction').forEach((el) => el.parentNode?.removeChild(el))
+  if (tocElement) {
+    tocElement.innerHTML = handlebars.compile(options.tocTemplate || '')({
+      ...options.context,
+      ...options.tocContext,
+    })
+    options.tocTemplate = tocElement.outerHTML
+  }
+  options.content = document.documentElement.outerHTML
 }
 
 export async function mergePDFs(document: Buffer, toc: Buffer): Promise<Buffer> {
