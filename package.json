@@ -51,7 +51,7 @@
     "consola": "^2.15.0",
     "express": "^4.17.1",
     "handlebars": "^4.7.6",
-    "inline-css": "^2.6.3",
+    "inline-css": "^3.0.0",
     "jsdom": "^16.4.0",
     "lodash.defaults": "^4.2.0",
     "lodash.pick": "^4.4.0",
