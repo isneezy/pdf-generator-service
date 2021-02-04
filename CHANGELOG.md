@@ -1,3 +1,10 @@
+## [0.2.4](https://github.com/isneezy/pdf-generator-service/compare/v0.2.3...v0.2.4) (2021-02-04)
+
+
+### Bug Fixes
+
+* increase request body limit ([1912b10](https://github.com/isneezy/pdf-generator-service/commit/1912b104bc23aeb3c6aa8f05f93a70da44c04fd6))
+
 ## [0.2.3](https://github.com/isneezy/pdf-generator-service/compare/v0.2.2...v0.2.3) (2020-10-22)
 
 
