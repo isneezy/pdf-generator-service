@@ -1,6 +1,6 @@
 {
   "name": "pdf-generator-service",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "A simple express service that generates a pdf based on the submitted HTML",
   "main": "index.js",
   "homepage": "https://github.com/isneezy/pdf-generator-service",

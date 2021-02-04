@@ -1,3 +1,11 @@
+## [0.2.5](https://github.com/isneezy/pdf-generator-service/compare/v0.2.4...v0.2.5) (2021-02-04)
+
+
+### Bug Fixes
+
+* issue where handlebars loops and conditions are being ignored ([602f990](https://github.com/isneezy/pdf-generator-service/commit/602f9904dfad36c93d41dd16cfde0788ac2155bb))
+* make request body configurable via environment variables ([72b6a91](https://github.com/isneezy/pdf-generator-service/commit/72b6a91f0d71639b7f0b8c1c663571b52d692182))
+
 ## [0.2.4](https://github.com/isneezy/pdf-generator-service/compare/v0.2.3...v0.2.4) (2021-02-04)
 
 
