@@ -1615,9 +1615,9 @@ configstore@^5.0.1:
     xdg-basedir "^4.0.0"
 
 consola@^2.15.0:
-  version "2.15.0"
-  resolved "https://registry.yarnpkg.com/consola/-/consola-2.15.0.tgz#40fc4eefa4d2f8ef2e2806147f056ea207fcc0e9"
-  integrity sha512-vlcSGgdYS26mPf7qNi+dCisbhiyDnrN1zaRbw3CSuc2wGOMEGGPsp46PdRG5gqXwgtJfjxDkxRNAgRPr1B77vQ==
+  version "2.15.2"
+  resolved "https://registry.yarnpkg.com/consola/-/consola-2.15.2.tgz#c858f1fe36ab97d256c6ebc791905ee923495602"
+  integrity sha512-VxqWw5C8O/mQpZYtfaaSCDJcVK3AxyvQ26rhgvyAI4j/QJISh8DLwFS8GQU+9154u4ngyCsSlnyIAYJme9kQug==
 
 content-disposition@0.5.3:
   version "0.5.3"
@@ -4196,9 +4196,9 @@ node-notifier@^8.0.0:
     which "^2.0.2"
 
 nodemon@^2.0.5:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-2.0.6.tgz#1abe1937b463aaf62f0d52e2b7eaadf28cc2240d"
-  integrity sha512-4I3YDSKXg6ltYpcnZeHompqac4E6JeAMpGm8tJnB9Y3T0ehasLa4139dJOcCrB93HHrUMsCrKtoAlXTqT5n4AQ==
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-2.0.7.tgz#6f030a0a0ebe3ea1ba2a38f71bf9bab4841ced32"
+  integrity sha512-XHzK69Awgnec9UzHr1kc8EomQh4sjTQ8oRf8TsGrSmHDx9/UmiGG9E/mM3BuTfNeFwdNBvrqQq/RHL0xIeyFOA==
   dependencies:
     chokidar "^3.2.2"
     debug "^3.2.6"
