@@ -69,7 +69,6 @@ export async function enhanceContent(options: PdfOptions): Promise<void> {
     removeStyleTags: true,
     url: ' ',
   })
-  prepareToc(options)
 
   if (options.context) {
     options.content = handlebars.compile(options.content)({
@@ -83,4 +82,6 @@ export async function enhanceContent(options: PdfOptions): Promise<void> {
     options.header = compileHeaderOrFooterTemplate(options.header, options)
     options.footer = compileHeaderOrFooterTemplate(options.footer, options)
   }
+
+  prepareToc(options)
 }
