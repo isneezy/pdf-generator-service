@@ -15,7 +15,10 @@ export default async function createApp(): Promise<CreateAppReturnType> {
   // Configure express application
   app.set('container', container)
   app.set('gracefullyExiting', false)
-  app.use(bodyParser.json({ limit: '100mb' }))
+
+  const limit = process.env.REQUEST_BODY_LIMIT || '100mb'
+
+  app.use(bodyParser.json({ limit }))
   app.use(createRoutes(container))
 
   app.use((req, res, next) => {
