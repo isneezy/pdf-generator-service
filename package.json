@@ -1,6 +1,6 @@
 {
   "name": "pdf-generator-service",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "A simple express service that generates a pdf based on the submitted HTML",
   "main": "index.js",
   "homepage": "https://github.com/isneezy/pdf-generator-service",
@@ -36,7 +36,7 @@
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
     "eslint": "^7.11.0",
-    "eslint-config-prettier": "^6.13.0",
+    "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.5.3",
     "nodemon": "^2.0.5",
@@ -57,7 +57,7 @@
     "lodash.pick": "^4.4.0",
     "pdf-lib": "^1.11.2",
     "pdf-parse": "^1.1.1",
-    "puppeteer": "^5.3.1",
+    "puppeteer": "^7.0.1",
     "uid-safe": "^2.1.5"
   }
 }
