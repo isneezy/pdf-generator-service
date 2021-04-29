@@ -1,5 +1,5 @@
 import defaults from 'lodash.defaults'
-import { LayoutDimension, PDFFormat } from 'puppeteer'
+import { PDFMargin, PaperFormat } from 'puppeteer'
 
 export type PDFOrientation = 'landscape' | 'portrait'
 export type TocEntry = {
@@ -11,7 +11,7 @@ export type TocEntry = {
 }
 export interface PdfOptions {
   orientation?: PDFOrientation
-  format?: PDFFormat
+  format?: PaperFormat
   content: string
   context?: Record<string, unknown>
   header?: string
@@ -21,12 +21,7 @@ export interface PdfOptions {
   tocContext: {
     _toc: TocEntry[]
   }
-  margin?: {
-    top?: LayoutDimension
-    bottom?: LayoutDimension
-    left?: LayoutDimension
-    right?: LayoutDimension
-  }
+  margin?: PDFMargin
 }
 
 export function pdfOptionsFactory(options: Partial<PdfOptions>): PdfOptions {
@@ -34,11 +29,15 @@ export function pdfOptionsFactory(options: Partial<PdfOptions>): PdfOptions {
     throw new Error('content should not be empty')
   }
 
+  // if we follow the puppeteer 9.0.0 types we have to introduce a breaking
+  // change where all the page formats are in lower case format
+  // to avoid us to introduce this breaking change me need to make the page format lowercase our selves.
+  options.format = (options.format || 'A4').toLocaleLowerCase() as PaperFormat
+
   return defaults<Partial<PdfOptions>, PdfOptions>(options, {
     content: '',
     footer: '',
     header: '',
-    format: 'A4',
     orientation: 'portrait',
     tocContext: { _toc: [] },
     margin: defaults(options.margin, {
