@@ -1,5 +1,6 @@
 import express, { Application } from 'express'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 import createRoutes from './routes'
 import { Container } from './services/Container'
 
@@ -17,7 +18,7 @@ export default async function createApp(): Promise<CreateAppReturnType> {
   app.set('gracefullyExiting', false)
 
   const limit = process.env.REQUEST_BODY_LIMIT || '100mb'
-
+  app.use(cors())
   app.use(bodyParser.json({ limit }))
   app.use(createRoutes(container))
 
