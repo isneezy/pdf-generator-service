@@ -1,5 +1,5 @@
 FROM node:lts-alpine3.12 AS base
-
+USER root
 # Installs latest Chromium package.
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories \
     && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
