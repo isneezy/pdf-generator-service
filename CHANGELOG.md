@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/isneezy/pdf-generator-service/compare/v0.2.5...v0.3.0) (2021-08-03)
+
+
+### Features
+
+* added cors support to service ([#193](https://github.com/isneezy/pdf-generator-service/issues/193)) ([6f47cba](https://github.com/isneezy/pdf-generator-service/commit/6f47cba5519c1880796dc88cd815f6f2a6b71c77))
+
 ## [0.2.5](https://github.com/isneezy/pdf-generator-service/compare/v0.2.4...v0.2.5) (2021-02-04)
 
 
