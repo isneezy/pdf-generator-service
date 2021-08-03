@@ -27,7 +27,7 @@ jobs:
         run: yarn lint
 
       - name: audit
-        run: yarn audit
+        run: yarn audit --groups dependencies, optionalDependencies
 
       - name: test
         run: yarn test --collectCoverage
