@@ -18,7 +18,7 @@ export function compileHeaderOrFooterTemplate(template: TemplateType, options: P
     title: '<span class="title"></span>',
     url: '<span class="url"></span>',
     pageNumber: '<span class="pageNumber"></span>',
-    totalPages: '<span class="pageNumber"></span>',
+    totalPages: '<span class="totalPages"></span>',
   }
   return handlebars.compile(printTemplate)(context)
 }
