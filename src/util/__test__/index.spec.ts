@@ -27,10 +27,10 @@ describe('utils.ts', () => {
 
     expect(options.displayHeaderFooter).toBeTruthy()
     expect(options.header).toBe(
-      `<div style="margin: 0 1.9cm 0 1.9cm; font-size: 8px"><span class="pageNumber"></span> <span class="pageNumber"></span> <span class="date"></span> <span class="title"></span> <span class="url"></span></div>`
+      `<div style="margin: 0 1.9cm 0 1.9cm; font-size: 8px"><span class="pageNumber"></span> <span class="totalPages"></span> <span class="date"></span> <span class="title"></span> <span class="url"></span></div>`
     )
     expect(options.footer).toBe(
-      `<div style="margin: 0 1.9cm 0 1.9cm; font-size: 8px"><span class="pageNumber"></span> <span class="pageNumber"></span> <span class="date"></span> <span class="title"></span> <span class="url"></span></div>`
+      `<div style="margin: 0 1.9cm 0 1.9cm; font-size: 8px"><span class="pageNumber"></span> <span class="totalPages"></span> <span class="date"></span> <span class="title"></span> <span class="url"></span></div>`
     )
   })
 })
