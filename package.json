@@ -1,6 +1,6 @@
 {
   "name": "pdf-generator-service",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A simple express service that generates a pdf based on the submitted HTML",
   "main": "index.js",
   "homepage": "https://github.com/isneezy/pdf-generator-service",
@@ -58,7 +58,7 @@
     "lodash.pick": "^4.4.0",
     "pdf-lib": "^1.11.2",
     "pdf-parse": "^1.1.1",
-    "puppeteer": "^10.1.0",
+    "puppeteer": "^13.5.0",
     "uid-safe": "^2.1.5"
   }
 }
