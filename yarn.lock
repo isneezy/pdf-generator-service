@@ -693,17 +693,19 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/bluebird@*":
-  version "3.5.33"
-  resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.33.tgz#d79c020f283bd50bd76101d7d300313c107325fc"
-  integrity "sha1-15wCDyg71QvXYQHX0wAxPBBzJfw= sha512-ndEo1xvnYeHxm7I/5sF6tBvnsA4Tdi3zj1keRKRs12SP+2ye2A27NDJ1B6PqkfMbGAcT+mqQVqbZRIrhfOp5PQ=="
-
 "@types/body-parser@*":
   version "1.19.0"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.19.0.tgz"
   integrity "sha1-BoWzxH6zAG/+0RfN1VFkth+AU48= sha512-W98JrE0j2K78swW4ukqMleo8R7h/pFETjM2DQ90MF6XK2i4LO4W3gQ71Lt4w3bfm2EvVSyWHplECvB5sK22yFQ=="
   dependencies:
     "@types/connect" "*"
+    "@types/node" "*"
+
+"@types/cheerio@*":
+  version "0.22.31"
+  resolved "https://registry.yarnpkg.com/@types/cheerio/-/cheerio-0.22.31.tgz#b8538100653d6bb1b08a1e46dec75b4f2a5d5eb6"
+  integrity sha512-Kt7Cdjjdi2XWSfrZ53v4Of0wG3ZcmaegFXjMmz9tfNrZSkzzo36G0AL1YqSdcIA78Etjt6E609pt5h1xnQkPUw==
+  dependencies:
     "@types/node" "*"
 
 "@types/connect@*":
@@ -749,12 +751,12 @@
   dependencies:
     "@types/node" "*"
 
-"@types/inline-css@^0.0.33":
-  version "0.0.33"
-  resolved "https://registry.yarnpkg.com/@types/inline-css/-/inline-css-0.0.33.tgz#a287ce24cb05ec7f68910439b45ec839990db07d"
-  integrity "sha1-oofOJMsF7H9okQQ5tF7IOZkNsH0= sha512-fgSqMPn3D7xx73c2/xZpc6PlKSawXXtyjuBmZQphAIT543w5FUpLoRMWOCJoJUcvHCvCgCQjGx3zbF8RFSAtcQ=="
+"@types/inline-css@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/inline-css/-/inline-css-3.0.1.tgz#b98708cfc8c13c247ce11f3c82a509ce468d181b"
+  integrity sha512-1bs+MjVvZIuF71D8P+FZf79LcqccqVBNF6txnabXT1vGnRMqZO0agtdyC585fcjuSs7Nj9qal8CF9rfWVQxnTQ==
   dependencies:
-    "@types/bluebird" "*"
+    "@types/cheerio" "*"
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.3"
