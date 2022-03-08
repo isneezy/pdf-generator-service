@@ -1,3 +1,10 @@
+## [0.3.1](https://github.com/isneezy/pdf-generator-service/compare/v0.3.0...v0.3.1) (2022-03-08)
+
+
+### Bug Fixes
+
+* fix incorrect totalPages template ([#351](https://github.com/isneezy/pdf-generator-service/issues/351)) ([e715b8a](https://github.com/isneezy/pdf-generator-service/commit/e715b8adc78021443ce45e220c1c129c04292981))
+
 # [0.3.0](https://github.com/isneezy/pdf-generator-service/compare/v0.2.5...v0.3.0) (2021-08-03)
 
 
