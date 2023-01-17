@@ -29,7 +29,8 @@ export class Pdf {
   }
 
   private static async generateContent(options: PdfOptions, page: Page): Promise<Buffer> {
-    await page.setContent(options.content, { waitUntil: 'networkidle0' })
+    if (options.goto) await page.goto(options.goto, { waitUntil: 'networkidle0' })
+    else await page.setContent(options.content, { waitUntil: 'networkidle0' })
     const pdfOptions = Pdf.buildPdfArguments(options, false)
     return await page.pdf(pdfOptions)
   }

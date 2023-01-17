@@ -3,6 +3,7 @@ import handlebars from 'handlebars'
 import { JSDOM } from 'jsdom'
 import UID from 'uid-safe'
 import inlineCss from 'inline-css'
+import * as http from "http";
 
 type TemplateType = string | undefined
 
@@ -85,3 +86,13 @@ export async function enhanceContent(options: PdfOptions): Promise<void> {
 
   prepareToc(options)
 }
+
+export const isValidURL = (url: string): boolean => {
+  try {
+    new URL(url)
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
