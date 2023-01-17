@@ -3,7 +3,6 @@ import handlebars from 'handlebars'
 import { JSDOM } from 'jsdom'
 import UID from 'uid-safe'
 import inlineCss from 'inline-css'
-import * as http from "http";
 
 type TemplateType = string | undefined
 
@@ -95,4 +94,3 @@ export const isValidURL = (url: string): boolean => {
     return false
   }
 }
-

@@ -1,6 +1,6 @@
 import defaults from 'lodash.defaults'
 import { PDFMargin, PaperFormat } from 'puppeteer'
-import {isValidURL} from "../util";
+import { isValidURL } from '../util'
 
 export type PDFOrientation = 'landscape' | 'portrait'
 export type TocEntry = {
