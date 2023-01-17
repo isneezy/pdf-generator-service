@@ -1,3 +1,10 @@
+# [0.4.0](https://github.com/isneezy/pdf-generator-service/compare/v0.3.1...v0.4.0) (2023-01-17)
+
+
+### Features
+
+* add goto option ([#420](https://github.com/isneezy/pdf-generator-service/issues/420)) ([8f476d4](https://github.com/isneezy/pdf-generator-service/commit/8f476d404c20bb2edbbe040dafcca398d21700a8))
+
 ## [0.3.1](https://github.com/isneezy/pdf-generator-service/compare/v0.3.0...v0.3.1) (2022-03-08)
 
 
