@@ -1,5 +1,5 @@
 import { pdfOptionsFactory } from '../../services/PdfOptions'
-import { compileHeaderOrFooterTemplate, enhanceContent, prepareToc } from '..'
+import { compileHeaderOrFooterTemplate, enhanceContent, isValidURL, prepareToc } from '..'
 
 describe('utils.ts', () => {
   it('should wrap the template with a div with margin and font size', () => {
@@ -82,5 +82,14 @@ describe('prepareToc from src/utils.ts', () => {
     options.tocContext._toc.forEach((data) =>
       expect(options.content).toContain(`class="removeAfterTocExtraction">${data.id}<`)
     )
+  })
+
+  it('should validate urls', () => {
+    expect(isValidURL('some random string')).toBe(false)
+    expect(isValidURL('www.example.com')).toBe(false)
+    expect(isValidURL('example.com')).toBe(false)
+    expect(isValidURL('http://example.com')).toBe(true)
+    expect(isValidURL('http://example.com:80')).toBe(true)
+    expect(isValidURL('https://example.com')).toBe(true)
   })
 })

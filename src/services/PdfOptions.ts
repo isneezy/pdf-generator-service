@@ -1,5 +1,6 @@
 import defaults from 'lodash.defaults'
 import { PDFMargin, PaperFormat } from 'puppeteer'
+import { isValidURL } from '../util'
 
 export type PDFOrientation = 'landscape' | 'portrait'
 export type TocEntry = {
@@ -10,6 +11,7 @@ export type TocEntry = {
   page?: number
 }
 export interface PdfOptions {
+  goto?: string
   orientation?: PDFOrientation
   format?: PaperFormat
   content: string
@@ -25,7 +27,8 @@ export interface PdfOptions {
 }
 
 export function pdfOptionsFactory(options: Partial<PdfOptions>): PdfOptions {
-  if (!options.content || !options.content.length) {
+  if (options.goto && !isValidURL(options.goto)) throw new Error('invalid value passed to goto option')
+  if ((!options.content || !options.content.length) && !options.goto) {
     throw new Error('content should not be empty')
   }
 
