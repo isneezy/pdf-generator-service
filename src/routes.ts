@@ -35,7 +35,7 @@ export default function createRoutes(iocContainer: Container): Router {
       res.setHeader('Content-Type', 'application/pdf')
       res.send(pdf).end()
     } catch (e) {
-      logger.error(e.message, e)
+      logger.error((e as Error).message)
       res
         .status(500)
         .json({
