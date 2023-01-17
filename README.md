@@ -32,8 +32,9 @@ The webserver started by express.js has one JSON endpoint to generate PDFs.
 Will generate a PDF based on the given `payload` data and returns the pdf file as a stream
 ```json5
 {
- "content": "", // required - HTML string/handlebars template to be converted to PDF,
- "context": {}, // object with the data to be passed to handlebars template engine
+  "goto": "", // optional - URL to the HTML content/handlebars template to be converted to PDF. This option overrides the content when present.
+  "content": "", // required when goto is not present - HTML string/handlebars template to be converted to PDF,
+  "context": {}, // object with the data to be passed to handlebars template engine
  "orientation": "portrait", // optional - possible values ["portrait", "landscape"]
  "format": "A4", // optional - possible values  ["Letter", "Legal", "Tabloid", "Ledger", "A0", "A1", "A2", "A3", "A4", "A5", "A6"]
  "header": "", // optional - HTML template for the print header. See https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagepdfoptions
