@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES6",
     "module": "commonjs",
     "moduleResolution": "Node",
-    "rootDir": "./",
-    "outDir": "./dist",
     "esModuleInterop": true,
-    "strict": true,
-    "resolveJsonModule": true
-  }
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "exclude": ["**/*.spec.ts", "**/*/dist"]
 }
