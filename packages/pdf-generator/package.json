@@ -1,0 +1,30 @@
+{
+  "name": "@isneezy/pdf-generator",
+  "version": "0.0.1",
+  "description": "A powerful and versatile library for converting HTML pages, templates, and URLs into high-quality PDF documents",
+  "keywords": [
+    "PDF",
+    "table",
+    "of",
+    "contents",
+    "html",
+    "to",
+    "pdf",
+    "html2pdf",
+    "toc",
+    "generator"
+  ],
+  "author": "Ivan Vilanculo <ivan.vilanculo@vm.co.mz>",
+  "homepage": "https://github.com/isneezy/pdf-generator-service/tree/main/packages/pdf-generator#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isneezy/pdf-generator-service.git"
+  },
+  "scripts": {
+    "test": "node ./__tests__/pdf-generator.test.js"
+  },
+  "bugs": {
+    "url": "https://github.com/isneezy/pdf-generator-service/issues"
+  }
+}
