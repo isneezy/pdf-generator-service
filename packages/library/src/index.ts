@@ -3,8 +3,12 @@ import * as handlebars from "handlebars";
 import { inlineCss } from "./helpers/dom";
 import { getFileContents } from "./helpers/url";
 
+const DEFAULT_GOTO_PAGE = 'about:blank'
+const EMPTY_HTML_CONTENT = '<html><head></head><body></body></html>'
+const DEFAULT_RESPONSE_OBJECT = { contentType: 'text/html', body: EMPTY_HTML_CONTENT }
+
 export type Options = {
-  /* URL to the HTML content/handlebars template to be converted to PDF. This option */
+  /* URL to the HTML content/handlebars template to be converted to PDF. */
   goto?: string
   /* handlebars template to be converted to PDF */
   template?: string
@@ -12,7 +16,7 @@ export type Options = {
   format?: PaperFormat
 }
 
-export class PdfGenerator {
+export default class PdfGenerator {
   private browser: Browser;
   private constructor(browser: Browser) {
     this.browser = browser;
@@ -24,6 +28,14 @@ export class PdfGenerator {
    */
   public async generate(options: Options) {
     const page = await this.browser.newPage()
+
+    // Set the URL of the browse to match the goto option
+    // This is required to resolve assets with relative URLs
+    await page.setRequestInterception(true)
+    page.once('request', (req) => req.respond(DEFAULT_RESPONSE_OBJECT))
+    await page.goto(options.goto || DEFAULT_GOTO_PAGE)
+    await page.setRequestInterception(false)
+
     try {
       // downloads the page content if goto option is set
       if (options.goto) options.template = await getFileContents(options.goto)
@@ -34,7 +46,7 @@ export class PdfGenerator {
 
       await page.setContent(options.template, { waitUntil: 'networkidle0' })
 
-      return page.pdf()
+      return await page.pdf({ format: options.format })
 
     } finally {
       await page.close()
