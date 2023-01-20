@@ -1,6 +1,6 @@
 import puppeteer, { Browser, PaperFormat } from 'puppeteer'
 import * as handlebars from "handlebars";
-import { inlineCss } from "./helpers/dom";
+import { extractHeaderAndFooter, inlineCss } from "./helpers/dom";
 import { getFileContents } from "./helpers/url";
 
 const DEFAULT_GOTO_PAGE = 'about:blank'
@@ -12,6 +12,10 @@ export type Options = {
   goto?: string
   /* handlebars template to be converted to PDF */
   template?: string
+  /* handlebars template to be rendered has page header */
+  headerTemplate?: string
+  /* handlebars template to be rendered has page footer */
+  footerTemplate?: string
   context?: { [key: string]: unknown }
   format?: PaperFormat
 }
@@ -39,6 +43,7 @@ export default class PdfGenerator {
     try {
       // downloads the page content if goto option is set
       if (options.goto) options.template = await getFileContents(options.goto)
+      extractHeaderAndFooter(options)
       // compiles the handlebars template if context is set
       if (options.context) options.template = handlebars.compile(options.template)(options.context)
       // downloads external css and inlines every css style
@@ -46,7 +51,13 @@ export default class PdfGenerator {
 
       await page.setContent(options.template, { waitUntil: 'networkidle0' })
 
-      return await page.pdf({ format: options.format })
+      return await page.pdf({
+        displayHeaderFooter: Boolean(options.headerTemplate || options.footerTemplate),
+        headerTemplate: options.headerTemplate,
+        footerTemplate: options.footerTemplate,
+        printBackground: true,
+        format: options.format
+      })
 
     } finally {
       await page.close()

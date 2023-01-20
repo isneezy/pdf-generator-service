@@ -18,14 +18,21 @@ npm install @isneezy/pdf-generator
 ## Usage
 
 ```js
+import { writeFileSync } from 'fs'
 import PdfGenerator from '@isneezy/pdf-generator'
 
 const template = '<p>Hello from {{ name }}</p>'
 const context = { name: 'PDF Generator' }
 
+// Creates a new instance of PdfGenerator
 const instance = PdfGenerator.instance()
 
-instance
-  .generate({ tempate, context })
-  .then(instance.close)
+// generate the PDF file
+instance.generate({ tempate, context })
+    .then(buffer => {
+      // write the file to disk
+      writeFileSync('path/to/the/output.pdf', buffer)
+    })
+  // freeup memorey by releasing used resources
+  .finally(instance.close)
 ```
