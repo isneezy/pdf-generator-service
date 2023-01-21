@@ -2,9 +2,13 @@ import PdfGenerator, { Options } from "./index";
 import { jest, describe, it, expect } from '@jest/globals'
 import puppeteer from "puppeteer";
 import axios from "axios";
+import fs from "fs";
+import path from "path";
+
+const mockedPdfBuffer = fs.readFileSync(path.join(__dirname, '../stub/paginated.pdf'))
 
 const mockedPage = {
-  pdf: jest.fn(),
+  pdf: jest.fn(() => Promise.resolve(mockedPdfBuffer)),
   setContent: jest.fn(),
   goto: jest.fn(),
   setRequestInterception: jest.fn(),
@@ -41,7 +45,7 @@ describe('src/index.ts', () => {
 
   it('should generate PDF document from a given html content', async () => {
     // given
-    const template = '<p>Hello from {{ name }}</p>'
+    const template = '<div id="table-of-contents"></div><h1 id="hFUqW5f6UoBl7D1gG1T8Sw">Hello from {{ name }}</h1>'
     const context = { name: 'PDF Generator' }
     const options: Options = { template, context }
     const instance = await PdfGenerator.instance()
@@ -49,7 +53,7 @@ describe('src/index.ts', () => {
     await instance.generate(options)
     // then
     expect(mockedPage.setContent).lastCalledWith(
-      expect.stringMatching(/<p>Hello from PDF Generator<\/p>/),
+      expect.stringMatching(/<h1 id="hFUqW5f6UoBl7D1gG1T8Sw">Hello from PDF Generator/),
       { waitUntil: 'networkidle0' }
     )
     expect(mockedPage.pdf).toHaveBeenCalled()
