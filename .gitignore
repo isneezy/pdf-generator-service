@@ -110,3 +110,9 @@ dist
 backup/
 
 test/data/05-versions-space.pdf.txt
+
+packages/cli/generated.pdf
+
+packages/cli/index.html
+
+packages/cli/paginated.pdf
