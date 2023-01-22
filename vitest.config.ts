@@ -4,6 +4,6 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   mode: 'library',
   test: {
-    exclude: ['**/node_modules/**', '**/dist/**']
-  }
+    exclude: ['**/node_modules/**', '**/dist/**'],
+  },
 })

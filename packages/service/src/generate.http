@@ -1,0 +1,4 @@
+POST http://localhost:3000/v1/generate
+Content-Type: application/json
+
+{ "format": "A3", "goto": "https://www.google.com" }

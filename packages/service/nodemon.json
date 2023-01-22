@@ -1,0 +1,4 @@
+{
+  "exec": "tsc && ENV=dev node dist/src/pdf-generator-service.js",
+  "ext": "*.ts"
+}
