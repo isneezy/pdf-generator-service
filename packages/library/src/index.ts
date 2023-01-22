@@ -1,5 +1,5 @@
 import puppeteer, { Browser, PaperFormat, PDFMargin } from "puppeteer";
-import * as handlebars from "handlebars";
+import handlebars from "handlebars";
 import { extractHeaderAndFooter, inlineCss, prepareTableOfContents } from "./helpers/dom";
 import { getFileContents } from "./helpers/url";
 import { extractTableOfContentFromPdfDocument } from "./helpers/pdf";

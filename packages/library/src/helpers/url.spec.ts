@@ -1,12 +1,12 @@
-import { jest, describe, it, expect } from "@jest/globals";
+import { vi, describe, it, expect } from "vitest";
 import axios from "axios";
 import { getFileContents } from "./url";
 
-jest.mock('axios')
+vi.mock('axios')
 describe('src/helpers/url.ts', () => {
   it('should download contents from a given url', async () => {
     const url = 'https://example.com'
-    jest.mocked(axios).get.mockResolvedValue({ data: 'hello' })
+    vi.mocked(axios, true).get.mockResolvedValue({ data: 'hello' })
     const value = await getFileContents(url)
     expect(value).toBe('hello')
   })

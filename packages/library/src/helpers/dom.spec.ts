@@ -1,4 +1,4 @@
-import { jest, describe, it, expect } from "@jest/globals";
+import { describe, it, expect } from "vitest";
 import { extractHeaderAndFooter, inlineCss, prepareTableOfContents } from "./dom";
 import { Options } from "../index";
 

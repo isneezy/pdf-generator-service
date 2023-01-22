@@ -1,7 +1,7 @@
 import { Options } from "../index";
 import parsePDF from 'pdf-parse'
 import { JSDOM } from "jsdom";
-import * as handlebars from "handlebars";
+import handlebars from "handlebars";
 import { TOC_CONTAINER_SELECTOR } from "./dom";
 
 const PAGE_BREAK_MARKER = '\n------page-break------'

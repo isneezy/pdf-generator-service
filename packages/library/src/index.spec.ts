@@ -1,5 +1,5 @@
 import PdfGenerator, { Options } from "./index";
-import { jest, describe, it, expect } from '@jest/globals'
+import { vi, describe, it, expect } from 'vitest'
 import puppeteer from "puppeteer";
 import axios from "axios";
 import fs from "fs";
@@ -8,22 +8,24 @@ import path from "path";
 const mockedPdfBuffer = fs.readFileSync(path.join(__dirname, '../stub/paginated.pdf'))
 
 const mockedPage = {
-  pdf: jest.fn(() => Promise.resolve(mockedPdfBuffer)),
-  setContent: jest.fn(),
-  goto: jest.fn(),
-  setRequestInterception: jest.fn(),
-  once: jest.fn(),
-  close: jest.fn()
+  pdf: vi.fn(() => Promise.resolve(mockedPdfBuffer)),
+  setContent: vi.fn(),
+  goto: vi.fn(),
+  setRequestInterception: vi.fn(),
+  once: vi.fn(),
+  close: vi.fn()
 }
 
 const mockedBrowser = {
-  newPage: jest.fn(() => mockedPage),
-  close: jest.fn()
+  newPage: vi.fn(() => mockedPage),
+  close: vi.fn()
 }
 
-jest.mock('axios')
-jest.mock('puppeteer', () => ({
-  launch: jest.fn(() => mockedBrowser),
+vi.mock('axios')
+vi.mock('puppeteer', () => ({
+  default: {
+    launch: vi.fn(() => mockedBrowser),
+  }
 }))
 
 describe('src/index.ts', () => {
@@ -61,7 +63,7 @@ describe('src/index.ts', () => {
 
   it('should generate PDF document from given goto URL', async () => {
     // given
-    jest.mocked(axios).get.mockResolvedValueOnce({ data: '<p>hello from goto page</p>' })
+    vi.mocked(axios, true).get.mockResolvedValueOnce({ data: '<p>hello from goto page</p>' })
     const goto = 'https://www.example.com'
     const instance = await PdfGenerator.instance()
     // when

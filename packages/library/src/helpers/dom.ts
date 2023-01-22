@@ -1,7 +1,7 @@
 import _inlineCss from 'inline-css'
 import { Options } from "../index";
 import { JSDOM } from 'jsdom'
-import * as handlebars from "handlebars"
+import handlebars from "handlebars"
 import UID from 'uid-safe'
 import { TableOfContents } from "./pdf";
 

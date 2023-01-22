@@ -6,7 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-packages/cli
 packages/web-service
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
@@ -109,3 +108,5 @@ dist
 .idea/
 
 backup/
+
+test/data/05-versions-space.pdf.txt
