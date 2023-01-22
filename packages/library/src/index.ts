@@ -1,4 +1,4 @@
-import puppeteer, { Browser, PaperFormat } from 'puppeteer'
+import puppeteer, { Browser, PaperFormat, PDFMargin } from "puppeteer";
 import * as handlebars from "handlebars";
 import { extractHeaderAndFooter, inlineCss, prepareTableOfContents } from "./helpers/dom";
 import { getFileContents } from "./helpers/url";
@@ -19,7 +19,8 @@ export type Options = {
   footerTemplate?: string
   context?: { [key: string]: unknown }
   format?: PaperFormat
-  landscape: boolean
+  landscape?: boolean
+  margin?: PDFMargin
 }
 
 export default class PdfGenerator {
@@ -62,7 +63,8 @@ export default class PdfGenerator {
         footerTemplate: options.footerTemplate,
         printBackground: true,
         format: options.format,
-        landscape: options.landscape
+        landscape: options.landscape,
+        margin: options.margin
       })
 
       if (tableOfContents.template) {
@@ -75,7 +77,8 @@ export default class PdfGenerator {
           footerTemplate: options.footerTemplate,
           printBackground: true,
           format: options.format,
-          landscape: options.landscape
+          landscape: options.landscape,
+          margin: options.margin
         })
       }
 
