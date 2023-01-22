@@ -19,6 +19,7 @@ export type Options = {
   footerTemplate?: string
   context?: { [key: string]: unknown }
   format?: PaperFormat
+  landscape: boolean
 }
 
 export default class PdfGenerator {
@@ -60,7 +61,8 @@ export default class PdfGenerator {
         headerTemplate: options.headerTemplate,
         footerTemplate: options.footerTemplate,
         printBackground: true,
-        format: options.format
+        format: options.format,
+        landscape: options.landscape
       })
 
       if (tableOfContents.template) {
@@ -72,7 +74,8 @@ export default class PdfGenerator {
           headerTemplate: options.headerTemplate,
           footerTemplate: options.footerTemplate,
           printBackground: true,
-          format: options.format
+          format: options.format,
+          landscape: options.landscape
         })
       }
 
