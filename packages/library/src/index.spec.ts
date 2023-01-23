@@ -1,9 +1,8 @@
-import PdfGenerator, { Options } from "./index";
+import PdfGenerator, { Options } from './index'
 import { vi, describe, it, expect } from 'vitest'
-import puppeteer from "puppeteer";
-import axios from "axios";
-import fs from "fs";
-import path from "path";
+import axios from 'axios'
+import fs from 'fs'
+import path from 'path'
 
 const mockedPdfBuffer = fs.readFileSync(path.join(__dirname, '../stub/paginated.pdf'))
 
@@ -13,19 +12,19 @@ const mockedPage = {
   goto: vi.fn(),
   setRequestInterception: vi.fn(),
   once: vi.fn(),
-  close: vi.fn()
+  close: vi.fn(),
 }
 
 const mockedBrowser = {
   newPage: vi.fn(() => mockedPage),
-  close: vi.fn()
+  close: vi.fn(),
 }
 
 vi.mock('axios')
 vi.mock('puppeteer', () => ({
   default: {
     launch: vi.fn(() => mockedBrowser),
-  }
+  },
 }))
 
 describe('src/index.ts', () => {
@@ -69,6 +68,8 @@ describe('src/index.ts', () => {
     // when
     await instance.generate({ goto })
     // then
-    expect(mockedPage.setContent).toBeCalledWith(expect.stringContaining('<p>hello from goto page</p>'), { "waitUntil": "networkidle0" })
+    expect(mockedPage.setContent).toBeCalledWith(expect.stringContaining('<p>hello from goto page</p>'), {
+      waitUntil: 'networkidle0',
+    })
   })
 })

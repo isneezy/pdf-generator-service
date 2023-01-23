@@ -1,6 +1,6 @@
-import { vi, describe, it, expect } from "vitest";
-import axios from "axios";
-import { getFileContents } from "./url";
+import { vi, describe, it, expect } from 'vitest'
+import axios from 'axios'
+import { getFileContents } from './url'
 
 vi.mock('axios')
 describe('src/helpers/url.ts', () => {

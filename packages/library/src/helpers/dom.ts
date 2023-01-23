@@ -1,9 +1,9 @@
 import _inlineCss from 'inline-css'
-import { Options } from "../index";
+import { Options } from '../index'
 import { JSDOM } from 'jsdom'
-import handlebars from "handlebars"
+import handlebars from 'handlebars'
 import UID from 'uid-safe'
-import { TableOfContents } from "./pdf";
+import { TableOfContents } from './pdf'
 
 // constants declarations
 const HEADER_TEMPLATE_SELECTOR = '.document-header'
@@ -70,16 +70,12 @@ export const extractHeaderAndFooter = (options: Options) => {
   const context = { ...options.context, pageNumber: PAGE_NUMBER_UUID, totalPages: TOTAL_PAGES_UUID }
 
   if (!options.headerTemplate && headerElement) {
-    options.headerTemplate = uuidsToPuppeteerVariables(
-      handlebars.compile(headerElement.outerHTML)(context)
-    )
+    options.headerTemplate = uuidsToPuppeteerVariables(handlebars.compile(headerElement.outerHTML)(context))
     headerElement.remove()
   }
 
   if (!options.footerTemplate && footerElement) {
-    options.footerTemplate = uuidsToPuppeteerVariables(
-      handlebars.compile(footerElement.outerHTML)(context)
-    )
+    options.footerTemplate = uuidsToPuppeteerVariables(handlebars.compile(footerElement.outerHTML)(context))
     footerElement.remove()
   }
 
@@ -101,14 +97,15 @@ export const prepareTableOfContents = (options: Options): TableOfContents => {
   tocContainer.style.pageBreakAfter = 'always'
   // Extract TOC template and wrap into empty clone of the original html to keep styles and other attributes
   const tocDocument = new JSDOM(options.template).window.document
-  tocContainer.querySelectorAll(TOC_INCLUDE_SELECTOR) // Exclude headings inside toc template from the toc itself
-    .forEach(heading => heading.classList.add(TOC_EXCLUDE_CLASS))
+  tocContainer
+    .querySelectorAll(TOC_INCLUDE_SELECTOR) // Exclude headings inside toc template from the toc itself
+    .forEach((heading) => heading.classList.add(TOC_EXCLUDE_CLASS))
 
   const bodyElement = tocDocument.querySelector('body') as HTMLElement
   bodyElement.innerHTML = tocContainer.outerHTML
   toc.template = tocDocument.documentElement.outerHTML
 
-  document.querySelectorAll(TOC_INCLUDE_SELECTOR).forEach(element => {
+  document.querySelectorAll(TOC_INCLUDE_SELECTOR).forEach((element) => {
     if (element.classList.contains(TOC_EXCLUDE_CLASS)) return
     const title = element.textContent || ''
     if (title && title.trim().length) {

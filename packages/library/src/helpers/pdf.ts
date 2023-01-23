@@ -1,13 +1,13 @@
-import { Options } from "../index";
+import { Options } from '../index'
 import parsePDF from 'pdf-parse'
-import { JSDOM } from "jsdom";
-import handlebars from "handlebars";
-import { TOC_CONTAINER_SELECTOR } from "./dom";
+import { JSDOM } from 'jsdom'
+import handlebars from 'handlebars'
+import { TOC_CONTAINER_SELECTOR } from './dom'
 
 const PAGE_BREAK_MARKER = '\n------page-break------'
 
 export type TableOfContents = {
-  items: { id: string, title: string, level: number, href: string, page?: number }[]
+  items: { id: string; title: string; level: number; href: string; page?: number }[]
   template?: string
 }
 
@@ -40,7 +40,11 @@ const pageRender = (pageData: any) => {
  * to be filled on the table of contents
  * @internal
  */
-export const extractTableOfContentFromPdfDocument = async (pdfBuffer: Buffer, tableOfContents: TableOfContents, options: Options) => {
+export const extractTableOfContentFromPdfDocument = async (
+  pdfBuffer: Buffer,
+  tableOfContents: TableOfContents,
+  options: Options
+) => {
   const data = await parsePDF(pdfBuffer, { pagerender: pageRender })
 
   data.text.split(PAGE_BREAK_MARKER).forEach((content: string, pageIndex: number) => {

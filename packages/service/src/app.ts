@@ -1,13 +1,12 @@
-import express from "express";
-import bodyParser from "body-parser";
+import express from 'express'
+import bodyParser from 'body-parser'
 import helmet from 'helmet'
 import pick from 'lodash.pick'
-// @ts-ignore
 import pkg from '../package.json'
 import { ValidationError } from 'yup'
-import { GRACEFULLY_EXITING } from "./constants";
-import PdfGenerator, { Options } from "@isneezy/pdf-generator";
-import { PDFOptionsSchema } from "./helpers/validation";
+import { GRACEFULLY_EXITING } from './constants'
+import PdfGenerator, { Options } from '@isneezy/pdf-generator'
+import { PDFOptionsSchema } from './helpers/validation'
 
 export const createApp = async () => {
   const app = express()
@@ -31,7 +30,7 @@ export const createApp = async () => {
   app.post('/v1/generate', async (req, res) => {
     try {
       // noinspection ES6RedundantAwait
-      const options = await PDFOptionsSchema.validate(req.body) as Options
+      const options = (await PDFOptionsSchema.validate(req.body)) as Options
       const pdfBuffer = instance.generate(options)
       res.status(200).setHeader('Content-Type', 'application/pdf')
       res.send(pdfBuffer).end()
@@ -39,7 +38,7 @@ export const createApp = async () => {
       if (e instanceof ValidationError) {
         res.status(422).json({
           message: 'Your request could not be processed',
-          errors: e.errors
+          errors: e.errors,
         })
       } else {
         res.status(500).json({ message: 'Internal server error' })
@@ -50,7 +49,7 @@ export const createApp = async () => {
   app.get('/v1/generate', async (req, res) => {
     try {
       // noinspection ES6RedundantAwait
-      const options = await PDFOptionsSchema.validate(req.query) as Options
+      const options = (await PDFOptionsSchema.validate(req.query)) as Options
       const pdfBuffer = await instance.generate(options)
       res.setHeader('Content-Type', 'application/pdf')
       res.send(pdfBuffer).end()
@@ -58,7 +57,7 @@ export const createApp = async () => {
       if (e instanceof ValidationError) {
         res.status(422).json({
           message: 'Your request could not be processed',
-          errors: e.errors
+          errors: e.errors,
         })
       } else {
         res.status(500).json({ message: 'Internal server error' })

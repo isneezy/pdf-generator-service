@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from 'axios'
 
 /** @internal */
 export const getFileContents = async (url: string): Promise<string> => {

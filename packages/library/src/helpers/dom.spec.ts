@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { extractHeaderAndFooter, inlineCss, prepareTableOfContents } from "./dom";
-import { Options } from "../index";
+import { describe, it, expect } from 'vitest'
+import { extractHeaderAndFooter, inlineCss, prepareTableOfContents } from './dom'
+import { Options } from '../index'
 
 describe('src/helpers/dom.ts', () => {
   it('should return an empty string if no template is passed', async () => {
@@ -11,7 +11,7 @@ describe('src/helpers/dom.ts', () => {
   it('should inline css properties from style tag', async () => {
     const template = '<style>div{ color: #fff; }</style><div>Hello</div><p>Hello</p>'
     const output = await inlineCss(template)
-    expect(output).toBe("<html><head></head><body><div style=\"color: #fff;\">Hello</div><p>Hello</p></body></html>")
+    expect(output).toBe('<html><head></head><body><div style="color: #fff;">Hello</div><p>Hello</p></body></html>')
   })
 
   it('should extract header and footer template from the document', () => {

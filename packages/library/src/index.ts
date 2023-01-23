@@ -1,8 +1,8 @@
-import puppeteer, { Browser, PaperFormat, PDFMargin } from "puppeteer";
-import handlebars from "handlebars";
-import { extractHeaderAndFooter, inlineCss, prepareTableOfContents } from "./helpers/dom";
-import { getFileContents } from "./helpers/url";
-import { extractTableOfContentFromPdfDocument } from "./helpers/pdf";
+import puppeteer, { Browser, PaperFormat, PDFMargin } from 'puppeteer'
+import handlebars from 'handlebars'
+import { extractHeaderAndFooter, inlineCss, prepareTableOfContents } from './helpers/dom'
+import { getFileContents } from './helpers/url'
+import { extractTableOfContentFromPdfDocument } from './helpers/pdf'
 
 const DEFAULT_GOTO_PAGE = 'about:blank'
 const EMPTY_HTML_CONTENT = '<html><head></head><body></body></html>'
@@ -24,9 +24,9 @@ export type Options = {
 }
 
 export default class PdfGenerator {
-  private browser: Browser;
+  private browser: Browser
   private constructor(browser: Browser) {
-    this.browser = browser;
+    this.browser = browser
   }
 
   /**
@@ -57,14 +57,14 @@ export default class PdfGenerator {
 
       // Generate the PDF document
       // Due to a limitation, at this stage if the table of content is requested, it won't have page numbers
-      let pdfBuffer = await page.pdf({
+      const pdfBuffer = await page.pdf({
         displayHeaderFooter: Boolean(options.headerTemplate || options.footerTemplate),
         headerTemplate: options.headerTemplate,
         footerTemplate: options.footerTemplate,
         printBackground: true,
         format: options.format,
         landscape: options.landscape,
-        margin: options.margin
+        margin: options.margin,
       })
 
       if (tableOfContents.template) {
@@ -78,12 +78,11 @@ export default class PdfGenerator {
           printBackground: true,
           format: options.format,
           landscape: options.landscape,
-          margin: options.margin
+          margin: options.margin,
         })
       }
 
       return pdfBuffer
-
     } finally {
       await page.close()
     }
@@ -92,7 +91,7 @@ export default class PdfGenerator {
   /**
    * Releases all used resources and frees up memory
    */
-  public async close (): Promise<void> {
+  public async close(): Promise<void> {
     await this.browser.close()
   }
 

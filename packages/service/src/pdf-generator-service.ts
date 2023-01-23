@@ -1,16 +1,15 @@
-import { program } from "commander"
-// @ts-ignore
+import { program } from 'commander'
 import pkg from '../package.json'
-import { createApp } from "./app";
-import { GRACEFULLY_EXITING } from "./constants";
-import { Server } from "http";
+import { createApp } from './app'
+import { GRACEFULLY_EXITING } from './constants'
+import { Server } from 'http'
 
-const logLevels = ['info','warn', 'error', 'silent'] as const
+const logLevels = ['info', 'warn', 'error', 'silent'] as const
 
 type CliOptions = {
   port: number
   cors: boolean
-  logLevel: typeof logLevels[number]
+  logLevel: (typeof logLevels)[number]
 }
 
 let server: Server | undefined
@@ -20,8 +19,8 @@ program
   .version(pkg.version)
   .description(
     'A powerful and versatile self-hosted, open-source REST API for converting HTML pages, templates, and URLs into' +
-    ' high-quality PDF documents. With `@isneezy/pdf-genertor-service`, you can easily convert HTML files into PDFs' +
-    ' with support for table of contents and various page configurations such as page size, margins, and more.'
+      ' high-quality PDF documents. With `@isneezy/pdf-genertor-service`, you can easily convert HTML files into PDFs' +
+      ' with support for table of contents and various page configurations such as page size, margins, and more.'
   )
   .option('-p, --port <port>', 'specify the port in witch the service will be listening', '3000')
   .option('-c, --cors', 'enable cors')
