@@ -1,6 +1,6 @@
 {
   "name": "@isneezy/pdf-generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A powerful and versatile library for converting HTML pages, templates, and URLs into high-quality PDF documents",
   "keywords": [
     "PDF",

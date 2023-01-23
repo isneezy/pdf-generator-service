@@ -1,3 +1,10 @@
+## @isneezy/pdf-generator [1.0.1](https://github.com/isneezy/pdf-generator-service/compare/@isneezy/pdf-generator@1.0.0...@isneezy/pdf-generator@1.0.1) (2023-01-23)
+
+
+### Bug Fixes
+
+* issues where some files where not being included into the final npm package ([8e0c1a6](https://github.com/isneezy/pdf-generator-service/commit/8e0c1a69c210161e95f143fea5ebc672041a2733))
+
 # @isneezy/pdf-generator 1.0.0 (2023-01-23)
 
 
