@@ -2,9 +2,11 @@
   "name": "pdf-generator",
   "version": "0.4.0",
   "description": "A simple express service that generates a pdf based on the submitted HTML",
-  "main": "index.js",
   "homepage": "https://github.com/isneezy/pdf-generator-service",
-  "repository": "https://github.com/isneezy/pdf-generator-service",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/isneezy/pdf-generator-service.git"
+  },
   "bugs": "https://github.com/isneezy/pdf-generator-service/issues",
   "author": "Ivan Vilanculo <vilanculoivan@gmail.com>",
   "license": "MIT",
@@ -13,9 +15,13 @@
     "build": "lerna run build",
     "pretest": "lerna run build",
     "test": "vitest",
+    "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
     "coverage": "yarn test --coverage"
   },
   "devDependencies": {
+    "@qiwi/multi-semantic-release": "^6.5.1",
+    "@semantic-release/changelog": "^6.0.2",
+    "@semantic-release/git": "^10.0.1",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
     "@vitest/coverage-c8": "^0.27.3",
@@ -29,5 +35,10 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "multi-release": {
+    "dryRun": true,
+    "debug": false,
+    "tagFormat": "${name}@${version}"
+  }
 }
