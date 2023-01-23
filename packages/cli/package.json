@@ -18,7 +18,9 @@
     "pdf-generator": "dist/src/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
   ],
   "repository": {
     "type": "git",

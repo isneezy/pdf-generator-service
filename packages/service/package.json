@@ -21,12 +21,10 @@
   "bin": {
     "pdf-generator-service": "dist/src/pdf-generator-service.js"
   },
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
   "files": [
-    "lib"
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
   ],
   "repository": {
     "type": "git",
