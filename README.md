@@ -2,6 +2,7 @@
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/isneezy/pdf-generator-service/ci.yml?branch=next&logo=github)](https://github.com/isneezy/pdf-generator-service/tree/next)
 [![Coverage Status](https://coveralls.io/repos/github/isneezy/pdf-generator-service/badge.svg?branch=next)](https://coveralls.io/github/isneezy/pdf-generator-service?branch=next)
+[![Docker Repository on Quay](https://quay.io/repository/isneezy/pdf-generator-service/status "Docker Repository on Quay")](https://quay.io/repository/isneezy/pdf-generator-service)
 
 A powerful and versatile tool for converting HTML pages, templates, and URLs into high-quality PDF documents using Chromium and Puppeteer.  
 
