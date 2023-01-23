@@ -1,5 +1,9 @@
 # @isneezy/pdf-generator-cli
 
+[![Build Status](https://img.shields.io/github/actions/workflow/status/isneezy/pdf-generator-service/ci.yml?branch=next&logo=github)](https://github.com/isneezy/pdf-generator-service/tree/next)
+[![Coverage Status](https://coveralls.io/repos/github/isneezy/pdf-generator-service/badge.svg?branch=next)](https://coveralls.io/github/isneezy/pdf-generator-service?branch=next)
+![npm (tag)](https://img.shields.io/npm/v/@isneezy/pdf-generator-cli/next?logo=npm)
+
 `@isneezy/pdf-generator-cli` is a command line interface for the [`@isneezy/pdf-generator`](../library/README.md) library, it allows you to easily generate PDFs from the command line.
 
 The package provides a single command `pdf-generator` that you can use to generate PDFs from a URL, HTML content or handlebars template with the context data.

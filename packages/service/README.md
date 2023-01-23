@@ -1,5 +1,9 @@
 # @isneezy/pdf-generator-service
 
+[![Build Status](https://img.shields.io/github/actions/workflow/status/isneezy/pdf-generator-service/ci.yml?branch=next&logo=github)](https://github.com/isneezy/pdf-generator-service/tree/next)
+[![Coverage Status](https://coveralls.io/repos/github/isneezy/pdf-generator-service/badge.svg?branch=next)](https://coveralls.io/github/isneezy/pdf-generator-service?branch=next)
+![npm (tag)](https://img.shields.io/npm/v/@isneezy/pdf-generator/next?logo=npm)
+
 `@isneezy/pdf-generator-service` is a web service that allows you to easily generate PDFs from a web interface.
 It uses the [@isneezy/pdf-generator](../service/README.md) library to generate the PDFs and provides an HTTP API that
 you can use to generate PDFs from a web application.
