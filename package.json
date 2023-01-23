@@ -37,8 +37,7 @@
     "packages/*"
   ],
   "multi-release": {
-    "dryRun": true,
-    "debug": false,
+    "dryRun": false,
     "tagFormat": "${name}@${version}"
   }
 }
