@@ -1,10 +1,13 @@
 # Express PDF Generator Service
 
 
-[![Build](https://img.shields.io/github/workflow/status/isneezy/pdf-generator-service/CI/master)](https://github.com/isneezy/pdf-generator-service)
-[![Docker Build](https://img.shields.io/docker/cloud/build/isneezy/pdf-generator)](https://hub.docker.com/r/isneezy/pdf-generator)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/isneezy/pdf-generator-service/node.js.yml?branch=master&logo=github)](https://github.com/isneezy/pdf-generator-service/tree/next)
+[![Docker Repository on Quay](https://quay.io/repository/isneezy/pdf-generator-service/status "Docker Repository on Quay")](https://quay.io/repository/isneezy/pdf-generator-service)
 [![Coverage Status](https://coveralls.io/repos/github/isneezy/pdf-generator-service/badge.svg?branch=master)](https://coveralls.io/github/isneezy/pdf-generator-service?branch=master)
 
+> ☝️ A next version with better performance and features is coming soon.  
+> To try it out, check its documentation in the
+> [next branch](https://github.com/isneezy/pdf-generator-service/tree/next).
 
 A simple express service that generates a pdf based on the submitted HTML using Chromium and Puppeteer.
 
@@ -21,9 +24,9 @@ yarn start
 ```
 #### Running with docker
 ```
-docker run --rm -p 3000:3000 --name=service isneezy/pdf-generator
+docker run --rm -p 3000:3000 --name=pdf-generator quay.io/isneezy/pdf-generator-service
 ```
-Check our [docker hub repository](https://hub.docker.com/r/isneezy/pdf-generator) for available tags
+Check our [docker repository](https://quay.io/repository/isneezy/pdf-generator-service?tab=tags) for available tags
 
 ## API
 The webserver started by express.js has one JSON endpoint to generate PDFs.
