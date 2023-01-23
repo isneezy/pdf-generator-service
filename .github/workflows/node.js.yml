@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [master, next]
   pull_request:
-      branches: [master]
+      branches: [master, next]
 
 jobs:
   CI:
@@ -30,7 +30,7 @@ jobs:
         run: yarn audit --groups dependencies, optionalDependencies
 
       - name: test
-        run: yarn test --collectCoverage
+        run: yarn coverage
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
@@ -41,7 +41,7 @@ jobs:
       - name: cache build
         uses: actions/cache@v2
         with:
-          path: dist
+          path: packages/*/dist
           key: ${{ runner.os }}-dist
 
       - name: Release
@@ -49,4 +49,4 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+        run: npx multi-semantic-release
