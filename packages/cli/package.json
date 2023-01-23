@@ -1,6 +1,6 @@
 {
   "name": "@isneezy/pdf-generator-cli",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A powerful and versatile command line interface for converting HTML pages, templates, and URLs into high-quality PDF documents.",
   "keywords": [
     "HTML",
@@ -33,7 +33,7 @@
     "url": "https://github.com/isneezy/pdf-generator-service/issues"
   },
   "dependencies": {
-    "@isneezy/pdf-generator": "^0.0.1",
+    "@isneezy/pdf-generator": "1.0.0",
     "commander": "^10.0.0"
   },
   "devDependencies": {
