@@ -1,5 +1,8 @@
 # PDF Generator
 
+[![Build Status](https://img.shields.io/github/actions/workflow/status/isneezy/pdf-generator-service/ci.yml?branch=next&logo=github)](https://github.com/isneezy/pdf-generator-service/tree/next)
+[![Coverage Status](https://coveralls.io/repos/github/isneezy/pdf-generator-service/badge.svg?branch=next)](https://coveralls.io/github/isneezy/pdf-generator-service?branch=next)
+
 A powerful and versatile tool for converting HTML pages, templates, and URLs into high-quality PDF documents using Chromium and Puppeteer.  
 
 With `pdf-generator`, you can easily create PDFs with support for table of contents and various page configurations such as page size, margins, and more.
