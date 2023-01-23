@@ -75,7 +75,7 @@ describe('src/app.ts', () => {
       const app = await createApp()
       await request(app)
         .post('/v1/generate')
-        .send({ template: '<p>Test</p>'})
+        .send({ template: '<p>Test</p>' })
         .expect('Content-Type', /json/)
         .expect(500)
         .expect((response) => expect(response.body.message).toBe('Internal server error'))
