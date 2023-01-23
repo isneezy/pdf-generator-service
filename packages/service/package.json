@@ -1,6 +1,6 @@
 {
   "name": "@isneezy/pdf-generator-service",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A powerful and versatile web service for converting HTML pages, templates, and URLs into high-quality PDF documents.",
   "keywords": [
     "PDF",
@@ -39,7 +39,7 @@
     "url": "https://github.com/isneezy/pdf-generator-service/issues"
   },
   "dependencies": {
-    "@isneezy/pdf-generator": "1.0.0",
+    "@isneezy/pdf-generator": "1.0.1",
     "@types/lodash.pick": "^4.4.7",
     "body-parser": "^1.20.1",
     "commander": "^10.0.0",
