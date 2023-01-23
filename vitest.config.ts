@@ -5,5 +5,8 @@ export default defineConfig({
   mode: 'library',
   test: {
     exclude: ['**/node_modules/**', '**/dist/**'],
+    coverage: {
+      reporter: ['lcov', 'text', 'html', 'json'],
+    },
   },
 })
