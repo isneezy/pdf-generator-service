@@ -13,7 +13,7 @@
   "private": true,
   "scripts": {
     "build": "lerna run build",
-    "pretest": "lerna run build",
+    "pretest": "yarn lerna --scope @isneezy/pdf-generator run build",
     "test": "vitest",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
     "coverage": "yarn test --coverage"

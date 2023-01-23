@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Response } from 'express'
 import bodyParser from 'body-parser'
 import helmet from 'helmet'
 import pick from 'lodash.pick'
@@ -28,42 +28,31 @@ export const createApp = async () => {
   })
 
   app.post('/v1/generate', async (req, res) => {
-    try {
-      // noinspection ES6RedundantAwait
-      const options = (await PDFOptionsSchema.validate(req.body)) as Options
-      const pdfBuffer = instance.generate(options)
-      res.status(200).setHeader('Content-Type', 'application/pdf')
-      res.send(pdfBuffer).end()
-    } catch (e) {
-      if (e instanceof ValidationError) {
-        res.status(422).json({
-          message: 'Your request could not be processed',
-          errors: e.errors,
-        })
-      } else {
-        res.status(500).json({ message: 'Internal server error' })
-      }
-    }
+    await handleGenerateRequest(instance, req.body, res)
   })
 
   app.get('/v1/generate', async (req, res) => {
-    try {
-      // noinspection ES6RedundantAwait
-      const options = (await PDFOptionsSchema.validate(req.query)) as Options
-      const pdfBuffer = await instance.generate(options)
-      res.setHeader('Content-Type', 'application/pdf')
-      res.send(pdfBuffer).end()
-    } catch (e) {
-      if (e instanceof ValidationError) {
-        res.status(422).json({
-          message: 'Your request could not be processed',
-          errors: e.errors,
-        })
-      } else {
-        res.status(500).json({ message: 'Internal server error' })
-      }
-    }
+    await handleGenerateRequest(instance, req.query, res)
   })
 
   return app
+}
+
+const handleGenerateRequest = async (instance: PdfGenerator, options: Options, response: Response) => {
+  try {
+    // noinspection ES6RedundantAwait,TypeScriptValidateJSTypes
+    options = (await PDFOptionsSchema.validate(options)) as Options
+    const pdfBuffer = await instance.generate(options)
+    response.setHeader('Content-Type', 'application/pdf')
+    response.send(pdfBuffer).end()
+  } catch (e) {
+    if (e instanceof ValidationError) {
+      response.status(422).json({
+        message: 'Your request could not be processed',
+        errors: e.errors,
+      })
+    } else {
+      response.status(500).json({ message: 'Internal server error' })
+    }
+  }
 }
