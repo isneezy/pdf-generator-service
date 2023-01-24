@@ -1,0 +1,82 @@
+name: container-images
+
+on:
+  push:
+    branches: [master, next]
+    paths: [packages/service, "!**/*.md"]
+  pull_request:
+    branches: [master, next]
+    paths: [packages/service, "!**/*.md"]
+
+jobs:
+  container-images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to Quay.io
+        uses: docker/login-action@v2
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_ROBOT_TOKEN }}
+
+      - name: Read container image tags
+        id: image-tags
+        run: |
+          echo "VERSION=$(cat packages/service/package.json | jq .version -r)" >> $GITHUB_OUTPUT
+          echo "BRANCH=$(echo "${{ github.head_ref || github.ref_name }}" | iconv -t ascii//TRANSLIT | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\|-+$//g | tr A-Z a-z)" >> $GITHUB_OUTPUT
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: packages/service/Dockerfile
+          tags:
+            isneezy/pdf-generator:${{ steps.image-tags.outputs.VERSION }},
+            isneezy/pdf-generator:${{ steps.image-tags.outputs.BRANCH }},
+            isneezy/pdf-generator:latest,
+            
+            isneezy/pdf-generator-service:${{ steps.image-tags.outputs.VERSION }},
+            isneezy/pdf-generator-service:${{ steps.image-tags.outputs.BRANCH }},
+            isneezy/pdf-generator-service:latest,
+            
+            quay.io/isneezy/pdf-generator-service:${{ steps.image-tags.outputs.VERSION }},
+            quay.io/isneezy/pdf-generator-service:${{ steps.image-tags.outputs.BRANCH }},
+            quay.io/isneezy/pdf-generator-service:latest,
+          push: ${{ (contains(github.ref, 'master') || contains(github.ref, 'next')) }}
+
+      - name: Update legacy Docker Hub Description
+        if: ${{ (contains(github.ref, 'master') }}
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: isneezy/pdf-generator
+          short-description: 'A simple and yet powerful, versatile web service for converting HTML pages, templates, and URLs into high-quality PDF documents.'
+          readme-filepath: packages/service/README.md
+
+      - name: Update Docker Hub Description
+        if: ${{ (contains(github.ref, 'master') }}
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: isneezy/pdf-generator-service
+          short-description: 'A simple and yet powerful, versatile web service for converting HTML pages, templates, and URLs into high-quality PDF documents.'
+          readme-filepath: packages/service/README.md

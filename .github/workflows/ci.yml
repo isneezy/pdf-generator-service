@@ -2,22 +2,20 @@ name: CI
 
 on:
   push:
-    paths-ignore:
-      - "**/*.md"
     branches: [master, next]
+    paths-ignore: ["**/*.md"]
   pull_request:
-    paths-ignore:
-      - "**/*.md"
     branches: [master, next]
+    paths-ignore: ["**/*.md"]
 
 jobs:
   CI:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: 14.x
       - name: restore cache
         uses: actions/cache@v2
         with:
@@ -40,7 +38,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: build
-        run: yarn build
+        run: |
+          yarn build
+          cat packages/cli/dist/src/index.js
+          cat packages/service/dist/src/pdf-generator-service.js
       - name: cache build
         uses: actions/cache@v2
         with:
