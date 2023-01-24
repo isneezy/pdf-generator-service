@@ -1,3 +1,10 @@
+## @isneezy/pdf-generator-cli [1.1.3](https://github.com/isneezy/pdf-generator-service/compare/@isneezy/pdf-generator-cli@1.1.2...@isneezy/pdf-generator-cli@1.1.3) (2023-01-24)
+
+
+### Bug Fixes
+
+* include scripts folder into the final npm package ([b870a74](https://github.com/isneezy/pdf-generator-service/commit/b870a7414c67cbd51f9a59a9c7d0c9ce460619b6))
+
 ## @isneezy/pdf-generator-cli [1.1.2](https://github.com/isneezy/pdf-generator-service/compare/@isneezy/pdf-generator-cli@1.1.1...@isneezy/pdf-generator-cli@1.1.2) (2023-01-24)
 
 
