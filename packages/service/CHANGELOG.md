@@ -1,3 +1,10 @@
+## @isneezy/pdf-generator-service [1.1.2](https://github.com/isneezy/pdf-generator-service/compare/@isneezy/pdf-generator-service@1.1.1...@isneezy/pdf-generator-service@1.1.2) (2023-01-24)
+
+
+### Bug Fixes
+
+* add  shebang to command-line script on post install ([ce36d82](https://github.com/isneezy/pdf-generator-service/commit/ce36d82dc815f32aaca406accb0c8233a7a61504))
+
 ## @isneezy/pdf-generator-service [1.1.1](https://github.com/isneezy/pdf-generator-service/compare/@isneezy/pdf-generator-service@1.1.0...@isneezy/pdf-generator-service@1.1.1) (2023-01-24)
 
 
