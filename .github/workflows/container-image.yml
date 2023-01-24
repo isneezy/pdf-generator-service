@@ -34,6 +34,7 @@ jobs:
       - name: Read service version
         id: service-version
         run: |
+          ls -la
           echo "VERSION=$(cat packages/service/package.json | jq .version -r)" >> $GITHUB_OUTPUT
       - name: Echo service version
         run: echo ${{ steps.service-version.outputs.VERSION }}
