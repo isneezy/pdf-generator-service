@@ -24,7 +24,7 @@ A clear and concise description of what you expected to happen.
 If applicable, could you add screenshots to help explain your problem?
 
 **Desktop (please complete the following information):**
- - OS: [e.g. iOS]
+ - OS: [e.g. Ubuntu]
  - Container runtime: [e.g. Docker]
  - Version: [e.g. Docker version 20.10.22, build 3a2c30b]
 
