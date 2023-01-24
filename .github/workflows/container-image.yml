@@ -59,7 +59,7 @@ jobs:
             quay.io/isneezy/pdf-generator-service:${{ steps.image-tags.outputs.VERSION }},
             quay.io/isneezy/pdf-generator-service:${{ steps.image-tags.outputs.BRANCH }},
             quay.io/isneezy/pdf-generator-service:latest,
-          push: true #${{ (contains(github.ref, 'master') || contains(github.ref, 'next')) }}
+          push: ${{ (contains(github.ref, 'master') || contains(github.ref, 'next')) }}
 
 
 #  build-docker-image:
