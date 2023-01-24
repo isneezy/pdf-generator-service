@@ -12,8 +12,8 @@ jobs:
   container-images:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 14.x
 
@@ -36,23 +36,27 @@ jobs:
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_ROBOT_TOKEN }}
 
-      - name: Read service version
-        id: service-version
-        run: echo "VERSION=$(cat packages/service/package.json | jq .version -r)" >> $GITHUB_OUTPUT
+      - name: Read container image tags
+        id: image-tags
+        run: |
+          echo "VERSION=$(cat packages/service/package.json | jq .version -r)" >> $GITHUB_OUTPUT
+          echo "BRANCH=$(echo "${{ github.head_ref || github.ref_name }}" | iconv -t ascii//TRANSLIT | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\|-+$//g | tr A-Z a-z)" >> $GITHUB_OUTPUT
 
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
           context: ./packages/service
           tags:
-            isneezy/pdf-generator:${{ steps.service-version.outputs.VERSION }},
-            isneezy/pdf-generator:${{ github.head_ref || github.ref_name }},
+            isneezy/pdf-generator:${{ steps.image-tags.outputs.VERSION }},
+            isneezy/pdf-generator:${{ steps.image-tags.outputs.BRANCH }},
             isneezy/pdf-generator:latest,
-            isneezy/pdf-generator-service:${{ steps.service-version.outputs.VERSION }},
-            isneezy/pdf-generator-service:${{ github.head_ref || github.ref_name }},
+            
+            isneezy/pdf-generator-service:${{ steps.image-tags.outputs.VERSION }},
+            isneezy/pdf-generator-service:${{ steps.image-tags.outputs.BRANCH }},
             isneezy/pdf-generator-service:latest,
-            quay.io/isneezy/pdf-generator-service:${{ steps.service-version.outputs.VERSION }},
-            quay.io/isneezy/pdf-generator-service:${{ github.head_ref || github.ref_name }},
+            
+            quay.io/isneezy/pdf-generator-service:${{ steps.image-tags.outputs.VERSION }},
+            quay.io/isneezy/pdf-generator-service:${{ steps.image-tags.outputs.BRANCH }},
             quay.io/isneezy/pdf-generator-service:latest,
           push: ${{ (contains(github.ref, 'master') || contains(github.ref, 'next')) }}
 
