@@ -61,24 +61,3 @@ jobs:
             quay.io/isneezy/pdf-generator-service:latest,
           push: ${{ (contains(github.ref, 'master') || contains(github.ref, 'next')) }}
 
-
-#  build-docker-image:
-#    # if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: build
-#        run: docker build --cache-from isneezy/pdf-generator -t isneezy/pdf-generator .
-#      - name: lanunch docker container
-#        run: docker run --rm -p 3000:3000 --name=service -d isneezy/pdf-generator
-##      - name: Test Generate Endpoint
-##        run: |
-##          curl -o test.pdf --location --request POST 'localhost:3000/generate' \
-##          --header 'Content-Type: application/json' \
-##          --data-raw '{
-##              "content": "<h2>Helo</h2>"
-##          }'
-##          stat test.pdf
-#      - name: cleanup
-#        run: docker rm -f service && docker image rm isneezy/pdf-generator:latest
-
