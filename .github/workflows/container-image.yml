@@ -50,13 +50,13 @@ jobs:
           context: ./packages/service
           tags:
             isneezy/pdf-generator:${{ steps.service-version.outputs.VERSION }},
-            isneezy/pdf-generator:${{ github.ref_name }},
+            isneezy/pdf-generator:${{ github.head_ref | github.ref_name }},
             isneezy/pdf-generator:latest,
             isneezy/pdf-generator-service:${{ steps.service-version.outputs.VERSION }},
-            isneezy/pdf-generator-service:${{ github.ref_name }},
+            isneezy/pdf-generator-service:${{ github.head_ref | github.ref_name }},
             isneezy/pdf-generator-service:latest,
             quay.io/isneezy/pdf-generator-service:${{ steps.service-version.outputs.VERSION }},
-            quay.io/isneezy/pdf-generator-service:${{ github.ref_name }},
+            quay.io/isneezy/pdf-generator-service:${{ github.head_ref | github.ref_name }},
             quay.io/isneezy/pdf-generator-service:latest,
           push: ${{ (contains(github.ref, 'master') || contains(github.ref, 'next')) }}
 
