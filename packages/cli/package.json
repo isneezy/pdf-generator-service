@@ -13,9 +13,8 @@
   "author": "Ivan Vilanculo <ivan.vilanculo@vm.co.mz>",
   "homepage": "https://github.com/isneezy/pdf-generator-service/tree/main/packages/pdf-generator-cli#readme",
   "license": "MIT",
-  "main": "dist/src/index.js",
   "bin": {
-    "pdf-generator": "dist/src/index.js"
+    "pdf-generator": "./dist/src/index.js"
   },
   "files": [
     "dist",
