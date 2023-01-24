@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 import { resolve } from 'path'
 import { writeFileSync, existsSync, readFileSync } from 'fs'
 import pkg from '../package.json'

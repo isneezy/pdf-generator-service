@@ -7,7 +7,7 @@
       [
           "@semantic-release/git",
         {
-          "assets": ["package.json", "CHANGELOG.md"],
+          "assets": ["package.json", "CHANGELOG.md", "packages/*/dist"],
           "message": "chore(release): ${nextRelease.gitTag} [skip ci]\n\n${nextRelease.notes}"
         }
       ],
