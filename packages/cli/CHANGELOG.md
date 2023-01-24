@@ -1,3 +1,10 @@
+# @isneezy/pdf-generator-cli [1.1.0](https://github.com/isneezy/pdf-generator-service/compare/@isneezy/pdf-generator-cli@1.0.1...@isneezy/pdf-generator-cli@1.1.0) (2023-01-24)
+
+
+### Features
+
+* add container image ([#431](https://github.com/isneezy/pdf-generator-service/issues/431)) ([d53923a](https://github.com/isneezy/pdf-generator-service/commit/d53923ab037f0d56c9dc8821d1c27ecb5a4974b9))
+
 ## @isneezy/pdf-generator-cli [1.0.1](https://github.com/isneezy/pdf-generator-service/compare/@isneezy/pdf-generator-cli@1.0.0...@isneezy/pdf-generator-cli@1.0.1) (2023-01-23)
 
 
