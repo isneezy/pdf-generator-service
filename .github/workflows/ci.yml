@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 14.x
       - name: restore cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules
           key: ${{ runner.os }}-node-modules
@@ -43,7 +43,7 @@ jobs:
           cat packages/cli/dist/src/index.js
           cat packages/service/dist/src/pdf-generator-service.js
       - name: cache build
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: packages/*/dist
           key: ${{ runner.os }}-dist
