@@ -2,13 +2,11 @@ name: CI
 
 on:
   push:
-    paths-ignore:
-      - "**/*.md"
     branches: [master, next]
+    paths-ignore: ["**/*.md"]
   pull_request:
-    paths-ignore:
-      - "**/*.md"
     branches: [master, next]
+    paths-ignore: ["**/*.md"]
 
 jobs:
   CI:
