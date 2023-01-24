@@ -42,8 +42,8 @@ jobs:
       - name: build
         run: |
           yarn build
-          cat packages/service/dist/index.js
-          cat packages/cli/dist/pdf-generator-service.js
+          cat packages/cli/dist/src/index.js
+          cat packages/service/dist/src/pdf-generator-service.js
       - name: cache build
         uses: actions/cache@v2
         with:
