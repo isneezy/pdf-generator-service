@@ -1,3 +1,10 @@
+## @isneezy/pdf-generator-service [1.1.1](https://github.com/isneezy/pdf-generator-service/compare/@isneezy/pdf-generator-service@1.1.0...@isneezy/pdf-generator-service@1.1.1) (2023-01-24)
+
+
+### Bug Fixes
+
+* command-line errors after package installation ([c94ffff](https://github.com/isneezy/pdf-generator-service/commit/c94ffffb431a8ad3aa115cfbafdd336ac72f8927))
+
 # @isneezy/pdf-generator-service [1.1.0](https://github.com/isneezy/pdf-generator-service/compare/@isneezy/pdf-generator-service@1.0.1...@isneezy/pdf-generator-service@1.1.0) (2023-01-24)
 
 
