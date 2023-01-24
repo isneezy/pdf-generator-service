@@ -38,6 +38,21 @@ jobs:
       - name: Echo service version
         run: echo ${{ steps.service-version.outputs.VERSION }}
 
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./packages/service
+          tags:
+            isneezy/pdf-generator:${{ steps.service-version.outputs.VERSION }},
+            isneezy/pdf-generator:${{ github.ref_name }},
+            isneezy/pdf-generator:latest,
+            isneezy/pdf-generator-service:${{ steps.service-version.outputs.VERSION }},
+            isneezy/pdf-generator-service:${{ github.ref_name }},
+            isneezy/pdf-generator-service:latest,
+            quay.io/isneezy/pdf-generator-service:${{ steps.service-version.outputs.VERSION }},
+            quay.io/isneezy/pdf-generator-service:${{ github.ref_name }},
+            quay.io/isneezy/pdf-generator-service:latest,
+          push: ${{ (contains(github.ref, 'master') || contains(github.ref, 'next')) }}
 
 
 #  build-docker-image:
