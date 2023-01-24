@@ -45,7 +45,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ./packages/service
+          context: .
+          file: packages/service/Dockerfile
           tags:
             isneezy/pdf-generator:${{ steps.image-tags.outputs.VERSION }},
             isneezy/pdf-generator:${{ steps.image-tags.outputs.BRANCH }},
