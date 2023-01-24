@@ -61,3 +61,20 @@ jobs:
             quay.io/isneezy/pdf-generator-service:latest,
           push: ${{ (contains(github.ref, 'master') || contains(github.ref, 'next')) }}
 
+      - name: Update legacy Docker Hub Description
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: isneezy/pdf-generator
+          short-description: 'A simple and yet powerful, versatile web service for converting HTML pages, templates, and URLs into high-quality PDF documents.'
+          readme-filepath: packages/service/README.md
+
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: isneezy/pdf-generator-service
+          short-description: 'A simple and yet powerful, versatile web service for converting HTML pages, templates, and URLs into high-quality PDF documents.'
+          readme-filepath: packages/service/README.md
