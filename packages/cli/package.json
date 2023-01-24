@@ -17,6 +17,7 @@
     "pdf-generator": "./dist/src/index.js"
   },
   "files": [
+    "scripts",
     "dist",
     "README.md",
     "CHANGELOG.md"

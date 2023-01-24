@@ -21,6 +21,7 @@
     "pdf-generator-service": "./dist/src/pdf-generator-service.js"
   },
   "files": [
+    "scripts",
     "dist",
     "README.md",
     "CHANGELOG.md"
