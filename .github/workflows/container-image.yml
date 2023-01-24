@@ -62,6 +62,7 @@ jobs:
           push: ${{ (contains(github.ref, 'master') || contains(github.ref, 'next')) }}
 
       - name: Update legacy Docker Hub Description
+        if: ${{ (contains(github.ref, 'master') }}
         uses: peter-evans/dockerhub-description@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -71,6 +72,7 @@ jobs:
           readme-filepath: packages/service/README.md
 
       - name: Update Docker Hub Description
+        if: ${{ (contains(github.ref, 'master') }}
         uses: peter-evans/dockerhub-description@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
