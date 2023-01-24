@@ -17,7 +17,7 @@
             "successComment": false,
             "failComment": false,
             "assets": [
-                { "path": "dist/**/*", "label": "Transpiled source files for distribution" },
+                { "path": "dist/**/*" },
             ]
         }
       ]

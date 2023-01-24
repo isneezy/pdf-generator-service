@@ -27,8 +27,10 @@
   },
   "scripts": {
     "build": "tsc",
+    "postbuild": "node ./scripts/post-install.js",
     "dev": "tsc && ENV=dev node dist/src/index.js",
-    "test": "vitest"
+    "test": "vitest",
+    "postinstall": "node ./scripts/post-install.js"
   },
   "bugs": {
     "url": "https://github.com/isneezy/pdf-generator-service/issues"

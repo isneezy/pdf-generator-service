@@ -15,7 +15,7 @@
     "generator"
   ],
   "author": "Ivan Vilanculo <ivan.vilanculo@vm.co.mz>",
-  "homepage": "https://github.com/isneezy/pdf-generator-service/tree/main/packages/pdf-generator-service#readme",
+  "homepage": "https://github.com/isneezy/pdf-generator-service/blob/master/README.md",
   "license": "MIT",
   "bin": {
     "pdf-generator-service": "./dist/src/pdf-generator-service.js"
@@ -31,8 +31,10 @@
   },
   "scripts": {
     "build": "tsc",
+    "postbuild": "node ./scripts/post-install.js",
     "dev": "nodemon",
-    "test": "vitest"
+    "test": "vitest",
+    "postinstall": "node ./scripts/post-install.js"
   },
   "bugs": {
     "url": "https://github.com/isneezy/pdf-generator-service/issues"
